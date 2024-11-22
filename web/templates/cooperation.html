@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, height=device-height, target-densitydpi=device-dpi"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/wallet.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+    <title>{{title}}</title>
+    <style>
+        .deposit-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .deposit-form input, .deposit-form button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .deposit-form button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .deposit-form button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script type="module" src="{{ url_for('static', filename='js/telegram.js') }}"></script>
+
+    <script>
+    window.addEventListener('load', function() {
+       const preloader = document.querySelector('.preloader');
+       setTimeout(function() {
+          preloader.classList.add('hidden');
+          setTimeout(function() {
+             preloader.style.display = 'none';
+          }, 100);
+       }, 100);
+    });
+    </script>
+    <div class="preloader">
+       <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="" class="logo">
+       <div class="loader"></div>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <div class="headers">
+                <h1>Мой кошелек</h1>
+            </div>
+            <div class="wallet">
+                <img src="{{ url_for('static', filename='assets/wallet_coin.png') }}" alt="" />
+                <p>Игровой баланс</p>
+                <h1 class="wallet_money">{{current_user.cash}}$</h1>
+                <p>Баланс для вывода</p>
+                <h1 class="wallet_money">{{current_user.withdrawal_balance}}$</h1>
+                <h2>ВСЕГО ЗАРАБОТАНО: {{current_user.total_earned}}$</h2>
+                <h2>ФРИСПИНЫ: {{current_user.freespins}}</h2>
+                <div class="wallet_btns">
+                    <button class="add_money" onclick="showDepositForm()">Пополнить</button>
+                    <button class="take_money">Вывести</button>
+                </div>
+            </div>
+            <div class="headers">
+                <h1>Как заработать?</h1>
+            </div>
+            <div class="wallet_buttons">
+                <div class="wallet_btn">
+                    <p>Играй и выигрывай!</p>
+                    <h1>Крути колесо</h1>
+                    <button onclick="window.location.href='{{ url_for('main.game') }}'">ИГРАТЬ</button>
+                    <img src="{{ url_for('static', filename='assets/coin_for_howtoplay.png') }}" style="position: absolute; right: 0; bottom: 0" alt="" />
+                </div>
+            </div>
+            <div class="wallet_row_btns">
+                <button class="row_btn" onclick="window.location.href='{{ url_for('main.friends') }}'">
+                    <h1>Приглашай друзей</h1>
+                    <img style="position: absolute; right: 0; bottom: 0" src="{{ url_for('static', filename='assets/Gift.png') }}" alt="" />
+                </button>
+                <button class="row_btn" onclick="window.location.href='{{ url_for('main.tasks') }}'">
+                    <h1>Выполняй задания</h1>
+                    <img style="position: absolute; right: 0; bottom: 0" src="{{ url_for('static', filename='assets/wallet-rocket.png') }}" alt="" />
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Форма для пополнения -->
+    <div id="depositForm" class="deposit-form">
+        <h2>Пополнение баланса</h2>
+        <input type="number" id="depositAmount" placeholder="Введите сумму" min="1" step="0.01">
+        <button onclick="createDeposit()">Пополнить</button>
+        <button onclick="hideDepositForm()">Отмена</button>
+    </div>
+
+    <header>
+        <nav class="navbar">
+            <a href="{{ url_for('main.index') }}" data-page="index">
+                <i><img src="{{ url_for('static', filename='assets/navbar_menu.png') }}" alt="Меню" /></i>
+                <span>Меню</span>
+            </a>
+            <a href="{{ url_for('main.tasks') }}" data-page="tasks">
+                <i><img src="{{ url_for('static', filename='assets/navbar_trophy.png') }}" alt="Задания" /></i>
+                <span>Задания</span>
+            </a>
+            <a href="{{ url_for('main.game') }}" class="middle" data-page="game">
+                <i><img src="{{ url_for('static', filename='assets/navbar_gamepad.png') }}" alt="Играть" /></i>
+                <span>Играть</span>
+            </a>
+            <a href="{{ url_for('main.friends') }}" data-page="friends">
+                <i><img src="{{ url_for('static', filename='assets/navbar_user.png') }}" alt="Друзья" /></i>
+                <span>Друзья</span>
+            </a>
+            <a href="{{ url_for('main.wallet') }}" data-page="wallet">
+                <i><img src="{{ url_for('static', filename='assets/navbar_wallet.png') }}" alt="Кошелек" /></i>
+                <span>Кошелек</span>
+            </a>
+        </nav>
+    </header>
+
+    <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+    <script>
+    function showDepositForm() {
+        document.getElementById('depositForm').style.display = 'block';
+    }
+
+    function hideDepositForm() {
+        document.getElementById('depositForm').style.display = 'none';
+    }
+
+    function createDeposit() {
+        const amount = document.getElementById('depositAmount').value;
+        fetch('{{ url_for("main.deposit") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({amount: amount}),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(`Депозит создан. Отправьте ${data.amount} USDT на адрес ${data.address} с комментарием ${data.comment}`);
+                hideDepositForm();
+                // Здесь можно добавить логику для обновления баланса на странице
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('Произошла ошибка при создании депозита');
+        });
+    }
+    </script>
+</body>
+</html>

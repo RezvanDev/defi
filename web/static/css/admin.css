@@ -1,0 +1,99 @@
+/* static/admin.css */
+body, html {
+  font-family: "Inter", sans-serif;
+  background-color: rgba(4, 8, 15, 1);
+  color: rgba(255, 255, 255, 1);
+}
+
+.navbar-default {
+  background: linear-gradient(
+    88.3deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 99.66%
+  );
+  border: none;
+}
+
+.navbar-default .navbar-brand,
+.navbar-default .navbar-nav > li > a {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-nav > li > a:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+.table {
+  background: linear-gradient(
+    87.9deg,
+    rgba(255, 255, 255, 0.0581) 0.67%,
+    rgba(255, 255, 255, 0.0308) 99.66%
+  );
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.table thead th {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 1);
+  border: none;
+}
+
+.table tbody td {
+  color: rgba(255, 255, 255, 0.7);
+  border: none;
+}
+
+.btn-primary {
+  background: linear-gradient(
+    88.3deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 99.66%
+  ),
+  radial-gradient(
+    54.05% 253.3% at 96.99% 66.46%,
+    rgba(44, 88, 246, 0.3) 0%,
+    rgba(44, 88, 246, 0) 100%
+  );
+  border: none;
+}
+
+.btn-danger {
+  background: linear-gradient(
+    88.3deg,
+    rgba(255, 100, 100, 0.1) 0%,
+    rgba(255, 100, 100, 0.05) 99.66%
+  ),
+  radial-gradient(
+    54.05% 253.3% at 96.99% 66.46%,
+    rgba(255, 100, 100, 0.3) 0%,
+    rgba(255, 100, 100, 0) 100%
+  );
+  border: none;
+}
+
+.form-control {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.panel {
+  background: linear-gradient(
+    87.9deg,
+    rgba(255, 255, 255, 0.0581) 0.67%,
+    rgba(255, 255, 255, 0.0308) 99.66%
+  );
+  border: none;
+}
+
+.panel-default > .panel-heading {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 1);
+  border: none;
+}

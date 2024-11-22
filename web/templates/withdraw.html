@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, height=device-height, target-densitydpi=device-dpi"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/withdraw.css') }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script type="module" src="{{ url_for('static', filename='js/telegram.js') }}"></script>
+    <title>{{title}}</title>
+</head>
+<body>
+    <div class="content">
+        <div class="container">
+            <div class="headers">
+                <h1>Вывод средств</h1>
+            </div>
+            <div class="wallet">
+                <img src="{{ url_for('static', filename='assets/usdt_icon.png') }}" alt="USDT Icon" />
+                <p class="balance">Доступно для вывода: <span id="withdrawalBalance">{{ withdrawal_balance }}</span> USDT</p>
+                <input type="number" id="withdrawAmount" placeholder="Введите сумму USDT" min="1" step="0.01">
+                <input type="text" id="withdrawAddress" placeholder="Введите адрес кошелька">
+                <button id="createWithdrawal" class="add_money">Создать запрос на вывод</button>
+            </div>
+            <div id="withdrawalInfo" class="wallet" style="display: none;">
+                <h2>Информация о выводе</h2>
+                <p class="amount">Сумма к выводу: <span id="amountToWithdraw"></span> USDT</p>
+                <p class="address">Адрес: <span id="withdrawalAddress"></span></p>
+                <p class="status">Статус: <span id="withdrawalStatus">В обработке</span></p>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/withdraw.js') }}"></script>
+</body>
+</html>

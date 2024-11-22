@@ -1,0 +1,186 @@
+:root {
+    --background-dark: #0F1012;
+    --background-input: #1A1D21;
+    --primary-color: #FF2E63;
+    --text-primary: #FFFFFF;
+    --text-secondary: #8F9093;
+    --button-inactive: #1E2127;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--background-dark);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow: hidden; /* Запрещает прокрутку страницы */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.main-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex: 1; /* Заставляет контейнер занимать доступное пространство */
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-top: 12px;
+}
+
+.wheel-banner {
+    width: 100%;
+    height: 140px;
+    background: linear-gradient(135deg, #FF2E63 0%, #FF4B2B 100%);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.wheel-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bet-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.bet-label {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.bet-input-wrapper {
+    width: 100%;
+}
+
+.bet-input {
+    width: 100%;
+    height: 56px;
+    background-color: var(--background-input);
+    border: none;
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 18px;
+    padding: 0 16px;
+    text-align: center;
+}
+
+.quick-bets {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.bet-button {
+    background-color: var(--button-inactive);
+    border: none;
+    border-radius: 12px;
+    color: var(--text-primary);
+    padding: 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.bet-button.active {
+    background-color: var(--primary-color);
+}
+
+.game-link-section {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.game-link-section.visible {
+    display: flex;
+}
+
+.link-label {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.link-description {
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.link-input-wrapper {
+    display: flex;
+    gap: 8px;
+}
+
+.link-input {
+    flex: 1;
+    height: 48px;
+    background-color: var(--background-input);
+    border: none;
+    border-radius: 12px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    padding: 0 16px;
+}
+
+.copy-button {
+    width: 48px;
+    height: 48px;
+    background-color: var(--background-input);
+    border: none;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.timer {
+    align-self: center;
+    background-color: var(--background-input);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    margin: 16px 0;
+}
+
+.action-button {
+    width: 90%;
+    height: 56px;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    position: fixed; /* Фиксированное положение кнопки */
+    bottom: 40px; /* Расстояние от нижнего края */
+    left: 50%; /* Центрирование кнопки */
+    transform: translateX(-50%); /* Центрирование кнопки */
+}
+
+.action-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.hidden {
+    display: none;
+}

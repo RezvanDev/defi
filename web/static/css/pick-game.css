@@ -1,0 +1,141 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul, ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+body, html {
+  font-family: "Inter", sans-serif;
+  height: 100%;
+  overflow: hidden;
+}
+
+button {
+  all: unset;
+  font-family: "Inter", sans-serif;
+  cursor: pointer;
+}
+
+.content {
+  height: 100vh;
+  background-color: rgba(4, 8, 15, 1);
+  background-image: url(../assets/Group\ 1171275208.png);
+  background-position: bottom;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  padding: 25px 0;
+}
+
+.header h1 {
+  color: rgba(255, 255, 255, 1);
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.game_buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.play_btn {
+  color: rgba(255, 255, 255, 1);
+  font-weight: 700;
+  font-size: 28px;
+  padding: 44px 0;
+  border-radius: 15px;
+  background: linear-gradient(
+      88.3deg,
+      rgba(255, 255, 255, 0.0581) 0%,
+      rgba(255, 255, 255, 0.0308) 99.66%
+    ),
+    radial-gradient(
+      75.07% 285.33% at -14.73% -83.59%,
+      rgba(246, 44, 117, 0.2) 0%,
+      rgba(246, 44, 117, 0) 100%
+    ),
+    radial-gradient(
+      54.05% 253.3% at 96.99% 66.46%,
+      rgba(44, 81, 246, 0.4) 0%,
+      rgba(44, 81, 246, 0) 100%
+    );
+  text-align: center;
+  position: relative;
+}
+
+.play_btn img {
+  position: absolute;
+  width: auto;
+  height: auto;
+}
+
+.play_btn img:first-of-type {
+  left: 0;
+  bottom: 0;
+}
+
+.play_btn img:last-of-type {
+  right: 0;
+  top: 0;
+}
+
+
+
+/* Стили для прелоадера */
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(4, 8, 15, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.3s ease-out;
+}
+
+.preloader.hidden {
+  opacity: 0;
+}
+
+.preloader .logo {
+  width: 80px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

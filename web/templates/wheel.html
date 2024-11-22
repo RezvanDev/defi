@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="content">
+    <div id="notification-container"></div>
+    <div class="wheelcontainer" id="wheelcontainer">
+       <img src="{{ url_for('static', filename='img/Group 1171275191.png') }}" alt="" class="spin2win">
+
+       <div class="wheel-container">
+           <div class="wheel-background"></div>
+           <canvas id="wheel"></canvas>
+           <img src="{{ url_for('static', filename='img/baraban.png')}}" alt="" class="gridkoleso">
+           <div class="wheel-shine wheel-shine-soft"></div>
+           <div id="whell-arrow"></div>
+           <button id="spin-btn">КРУТИТЬ</button>
+       </div>
+
+       <div class="input-component">
+           <div class="number-section">
+               <div class="number-header">
+                   <p class="chislo">Число</p>
+                   <div class="coefficient-display" id="coefficient-display">
+                       <span id="current-coefficient">x0</span>
+                   </div>
+               </div>
+               <div class="number-inputs">
+                   <button class="number-select" data-index="0">+</button>
+                   <button class="number-select" data-index="1">+</button>
+                   <button class="number-select" data-index="2">+</button>
+                   <button class="number-select" data-index="3">+</button>
+               </div>
+           </div>
+
+           <div class="bet-input">
+              <p class="bet-label">Ваша ставка</p>
+              <button class="bet-select">+</button>
+           </div>
+       </div>
+
+       <div id="number-menu" class="number-menu">
+           <div class="number-grid">
+               <!-- Числа от 1 до 41 будут добавлены с помощью JavaScript -->
+           </div>
+       </div>
+
+       <div id="bet-menu" class="bet-menu">
+           <div class="bet-grid">
+               <!-- Ставки будут добавлены с помощью JavaScript -->
+           </div>
+       </div>
+
+       <div id="result-message"></div>
+    </div>
+
+    <div class="modal modal--hidden" id="modal">
+    <div class="modal__container">
+        <img class="modal__background" src="{{ url_for('static', filename='assets/win_background.png') }}" alt="Background">
+        <div class="modal__content">
+            <img class="modal__logo" src="{{ url_for('static', filename='assets/spin_win_logo.png') }}" alt="Spin2Win Logo" />
+            <h1 class="modal__title">Поздравляем!</h1>
+            <div class="modal__win-info">
+                <p class="modal__text">Ваш ВЫИГРЫШ</p>
+                <h1 class="modal__amount" id='modal-message'>$0.00</h1>
+            </div>
+            <button class="button--close-modal" id='closemodal'>ЗАБРАТЬ ВЫИГРЫШ</button>
+        </div>
+    </div>
+</div>
+
+    <script src="{{ url_for('static', filename='js/wheel.js')}}"></script>
+</div>
+{% endblock %}

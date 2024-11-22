@@ -1,0 +1,194 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul, ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+body, html {
+  font-family: "Inter", sans-serif;
+  height: 100%;
+  overflow: hidden;
+}
+
+button {
+  all: unset;
+  font-family: "Inter", sans-serif;
+  cursor: pointer;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(4, 8, 15, 1);
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.header_balance {
+  font-weight: 400;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 1);
+}
+
+.header_price {
+  color: rgba(255, 255, 255, 1);
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.menu_buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+.menu_buttons button {
+  display: block;
+}
+
+.play_btn {
+  color: rgba(255, 255, 255, 1);
+  font-weight: 700;
+  font-size: 28px;
+  padding: 30px 0;
+  border-radius: 15px;
+  background: linear-gradient(
+      88.3deg,
+      rgba(255, 255, 255, 0.0581) 0%,
+      rgba(255, 255, 255, 0.0308) 99.66%
+    ),
+    radial-gradient(
+      75.07% 285.33% at -14.73% -83.59%,
+      rgba(246, 44, 117, 0.2) 0%,
+      rgba(246, 44, 117, 0) 100%
+    ),
+    radial-gradient(
+      54.05% 253.3% at 96.99% 66.46%,
+      rgba(44, 81, 246, 0.4) 0%,
+      rgba(44, 81, 246, 0) 100%
+    );
+  text-align: center;
+  position: relative;
+}
+
+.menu_row_btns {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.row_btn {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(
+      87.9deg,
+      rgba(255, 255, 255, 0.0581) 0.67%,
+      rgba(255, 255, 255, 0.0308) 99.66%
+    ),
+    radial-gradient(
+      54.05% 253.3% at 96.99% 66.46%,
+      rgba(246, 189, 44, 0.2) 0%,
+      rgba(246, 189, 44, 0) 100%
+    );
+  border-radius: 15px;
+  text-align: left;
+  flex-grow: 1;
+  padding: 15px 15px 100px 15px;
+  position: relative;
+}
+
+.row_btn p {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.row_btn h1 {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 1);
+  font-size: 20px;
+}
+
+.how_to_play {
+  position: relative;
+  color: rgba(255, 255, 255, 1);
+  border-radius: 15px;
+  background: linear-gradient(
+      88.3deg,
+      rgba(255, 255, 255, 0.0581) 0%,
+      rgba(255, 255, 255, 0.0308) 99.66%
+    ),
+    radial-gradient(
+      54.05% 253.3% at 96.99% 66.46%,
+      rgba(44, 88, 246, 0.2) 0%,
+      rgba(44, 88, 246, 0) 100%
+    );
+  padding: 15px 15px 50px 15px;
+}
+
+.how_to_play p {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.how_to_play h1 {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 1);
+  font-size: 20px;
+}
+
+/* Стили для прелоадера */
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(4, 8, 15, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.3s ease-out;
+}
+
+.preloader.hidden {
+  opacity: 0;
+}
+
+.preloader .logo {
+  width: 80px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

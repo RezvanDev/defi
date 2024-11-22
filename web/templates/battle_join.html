@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/battle-join.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <div class="connection-status" id="connectionStatus">
+        Проверка подключения...
+    </div>
+
+    <div class="main-container">
+        <h1 class="title">Присоединиться к игре</h1>
+
+        <div class="battle-info">
+            <div class="creator-info">
+                <div class="label">Создатель</div>
+                <div class="value">{{ battle.creator.username }}</div>
+            </div>
+
+            <div class="bet-info">
+                <div class="label">Ставка</div>
+                <div class="value">{{ battle.bet_amount }} $</div>
+            </div>
+
+            <div class="prize-info">
+                <div class="label">Выигрыш</div>
+                <div class="value">{{ battle.bet_amount * 2 }} $</div>
+            </div>
+        </div>
+
+        <div class="wheel-preview">
+            <img src="{{ url_for('static', filename='img/wheel-battle.png') }}" alt="wheel">
+        </div>
+
+        <div class="timer-container">
+            <div class="timer" id="timer">01:00</div>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <button class="join-button" id="joinButton">
+            Присоединиться к игре
+        </button>
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        window.battleData = {
+            id: {{ battle.id }},
+            betAmount: {{ battle.bet_amount }}
+        };
+    </script>
+    <script src="{{ url_for('static', filename='js/battle-join.js') }}"></script>
+</body>
+</html>

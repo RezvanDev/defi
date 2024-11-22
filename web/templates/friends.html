@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, height=device-height, target-densitydpi=device-dpi"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/referal.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet"
+    />
+    <title>{{title}}</title>
+</head>
+<body>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script type="module" src="{{ url_for('static', filename='js/telegram.js') }}"></script>
+
+    <script>
+    window.addEventListener('load', function() {
+       const preloader = document.querySelector('.preloader');
+       setTimeout(function() {
+          preloader.classList.add('hidden');
+          setTimeout(function() {
+             preloader.style.display = 'none';
+          }, 100);
+       }, 100);
+    });
+    </script>
+    <div class="preloader">
+       <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="" class="logo">
+       <div class="loader"></div>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <div class="headers">
+                <h1>Приглашай друзей</h1>
+            </div>
+            <div class="referal_buttons">
+                <div class="referal_btn">
+                    <p>Играй и выигрывай!</p>
+                    <h1>Крути колесо</h1>
+                    <button onclick="window.location.href='{{ url_for('main.game') }}'">ИГРАТЬ</button>
+                    <img
+                    src="{{ url_for('static', filename='assets/coin_for_howtoplay.png') }}"
+                    style="position: absolute; right: 0; bottom: 0"
+                    alt=""
+                    />
+                </div>
+            </div>
+            <div class="how_it_works">
+                <h1>Как это работает?</h1>
+                <ol style="padding-left: 20px;">
+                    <li>
+                        <h2>Поделись ссылкой и получи 5%</h2>
+                        <p>Отправь ссылку другу и получи 5% от его депозитов</p>
+                    </li>
+                    <li>
+                        <h2>Твой друг получит бонус</h2>
+                        <p>Когда присоединится к spin2win по твоей ссылке</p>
+                    </li>
+                </ol>
+                <button id="inviteButton">ПРИГЛАСИТЬ</button>
+            </div>
+            <div class="headers" style="padding: 32px 0 24px 0;">
+                <h1 style="font-weight: 400;">Приглашенные друзья</h1>
+            </div>
+            <div class="referal_container">
+                <span style="display: flex; justify-content: space-between;padding: 0 8px 10px 10px;">
+                    <p>Заработано: <span id="totalEarnings">0</span> монет</p>
+                </span>
+                <ul id="referralList" class="referal_board">
+                    <!-- Список рефералов будет заполнен динамически -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <nav class="navbar">
+            <a href="{{ url_for('main.index') }}" data-page="index">
+                <i><img src="{{ url_for('static', filename='assets/navbar_menu.png') }}" alt="Меню" /></i>
+                <span>Меню</span>
+            </a>
+            <a href="{{ url_for('main.tasks') }}" data-page="tasks">
+                <i><img src="{{ url_for('static', filename='assets/navbar_trophy.png') }}" alt="Задания" /></i>
+                <span>Задания</span>
+            </a>
+            <a href="{{ url_for('main.game') }}" class="middle" data-page="game">
+                <i><img src="{{ url_for('static', filename='assets/navbar_gamepad.png') }}" alt="Играть" /></i>
+                <span>Играть</span>
+            </a>
+            <a href="{{ url_for('main.friends') }}" data-page="friends">
+                <i><img src="{{ url_for('static', filename='assets/navbar_user.png') }}" alt="Друзья" /></i>
+                <span>Друзья</span>
+            </a>
+            <a href="{{ url_for('main.wallet') }}" data-page="wallet">
+                <i><img src="{{ url_for('static', filename='assets/navbar_wallet.png') }}" alt="Кошелек" /></i>
+                <span>Кошелек</span>
+            </a>
+        </nav>
+    </header>
+
+    <script src="{{ url_for('static', filename='js/referral.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+</body>
+</html>

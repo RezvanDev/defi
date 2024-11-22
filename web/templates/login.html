@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #0F1824;
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            max-width: 400px;
+            width: 100%;
+        }
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .message {
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .button {
+            background: #2B6BF3;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.2s;
+        }
+        .button:hover {
+            background: #1a5ad9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="Logo" class="logo">
+        <div class="message">
+            Для продолжения необходимо авторизоваться через Telegram
+        </div>
+        <a href="{{ url_for('main.index') }}" class="button">Вернуться в приложение</a>
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        // Если страница открыта в Telegram WebApp, автоматически возвращаемся в приложение
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.location.href = "{{ url_for('main.index') }}";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, height=device-height, target-densitydpi=device-dpi"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pick-game.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet"
+    />
+    <title>{{title}}</title>
+</head>
+<body>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script type="module" src="{{ url_for('static', filename='js/telegram.js') }}"></script>
+
+    <script>
+    window.addEventListener('load', function() {
+       const preloader = document.querySelector('.preloader');
+       setTimeout(function() {
+          preloader.classList.add('hidden');
+          setTimeout(function() {
+             preloader.style.display = 'none';
+          }, 100);
+       }, 100);
+    });
+    </script>
+    <div class="preloader">
+       <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="" class="logo">
+       <div class="loader"></div>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <div class="header">
+                <h1>Режимы</h1>
+            </div>
+            <div class="game_buttons">
+                <button class="play_btn" onclick="window.location.href='{{ url_for('main.wheel') }}'">
+                    <img
+                    style="position: absolute; left: 0; bottom: 0"
+                    src="{{ url_for('static', filename='assets/Coin.png') }}"
+                    alt=""
+                    />Одиночный
+                    <img
+                    src="{{ url_for('static', filename='assets/Rocket.png') }}"
+                    alt=""
+                    style="position: absolute; right: 0; top: 0"
+                    />
+                </button>
+                <button class="play_btn" onclick="window.location.href='/battle/create'">
+    <img
+    style="position: absolute; left: 0; bottom: 0"
+    src="{{ url_for('static', filename='assets/Star.png') }}"
+    alt=""
+    />Против друга
+    <img
+    src="{{ url_for('static', filename='assets/make-one-friend-icon--only-his-head (1) 1.png') }}"
+    alt=""
+    style="position: absolute; right: 0; top: 0"
+    />
+</button>
+            </div>
+        </div>
+<header>
+    <nav class="navbar">
+        <a href="{{ url_for('main.index') }}" data-page="index">
+            <i><img src="{{ url_for('static', filename='assets/navbar_menu.png') }}" alt="Меню" /></i>
+            <span>Меню</span>
+        </a>
+        <a href="{{ url_for('main.tasks') }}" data-page="tasks">
+            <i><img src="{{ url_for('static', filename='assets/navbar_trophy.png') }}" alt="Задания" /></i>
+            <span>Задания</span>
+        </a>
+        <a href="{{ url_for('main.game') }}" class="middle" data-page="game">
+            <i><img src="{{ url_for('static', filename='assets/navbar_gamepad.png') }}" alt="Играть" /></i>
+            <span>Играть</span>
+        </a>
+        <a href="{{ url_for('main.friends') }}" data-page="friends">
+            <i><img src="{{ url_for('static', filename='assets/navbar_user.png') }}" alt="Друзья" /></i>
+            <span>Друзья</span>
+        </a>
+        <a href="{{ url_for('main.wallet') }}" data-page="wallet">
+            <i><img src="{{ url_for('static', filename='assets/navbar_wallet.png') }}" alt="Кошелек" /></i>
+            <span>Кошелек</span>
+        </a>
+    </nav>
+</header>
+
+<!-- Подключение JavaScript файла для навбара -->
+<script src="{{ url_for('static', filename='js/navbar.js') }}"></script>

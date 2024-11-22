@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Battle Game</title>
+    <link rel="stylesheet" href="/battle-game.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    data-battle-id="{{ battle.id }}"
+    data-is-creator="{{ 'true' if is_creator else 'false' }}"
+  >
+    <div class="battle-content">
+      <!-- Лого -->
+      <div class="logo">
+        <img src="/logo.png" alt="Spin2Win" />
+      </div>
+
+      <!-- Колесо и информация о ходе -->
+      <div class="wheel-section">
+        <div class="wheel-container">
+          <img
+            src="{{ url_for('static', filename='img/baraban.png')}}"
+            alt=""
+            class="wheel-frame"
+          />
+          <canvas id="wheel"></canvas>
+          <div id="wheel-arrow"><img src="/arrow.png" alt="" /></div>
+          <button id="spin-button">КРУТИТЬ</button>
+        </div>
+<div style="    margin-top: 110px;
+;width: 107%;display: flex;flex-direction: column; justify-content: center; align-items: center;gap: 16px; background-color: rgba(8, 14, 27, 0.8);">
+        <div class="turn-info">
+          <div class="turn-status">Ваш ход</div>
+          <div class="timer">01:57</div>
+        </div>
+
+      <!-- Результаты -->
+      <div class="results-section">
+        <!-- Ваш ход -->
+        <div class="player-results">
+          <div class="results-header">
+            <h2>Ваш результат</h2>
+          </div>
+          <div class="round-slots">
+            <div class="slot" id="player1-round1">+</div>
+            <div class="slot" id="player1-round2">+</div>
+            <div class="slot" id="player1-round3">+</div>
+          </div>
+        </div>
+
+        <!-- Результат соперника -->
+        <div class="player-results">
+          <div class="results-header">
+            <h2>Результат соперника</h2>
+          </div>
+          <div class="round-slots">
+            <div class="slot" id="player2-round1">+</div>
+            <div class="slot" id="player2-round2">+</div>
+            <div class="slot" id="player2-round3">+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+    <!-- Модальное окно для выигрыша -->
+    <div class="modal modal--hidden" id="modal">
+      <div class="modal__container">
+        <img
+          class="modal__background"
+          src="{{ url_for('static', filename='assets/win_background.png') }}"
+          alt="Background"
+        />
+        <div class="modal__content">
+          <img
+            class="modal__logo"
+            src="{{ url_for('static', filename='assets/spin_win_logo.png') }}"
+            alt="Spin2Win Logo"
+          />
+          <h1 class="modal__title">Поздравляем!</h1>
+          <div class="modal__win-info">
+            <p class="modal__text">Ваш ВЫИГРЫШ</p>
+            <h1 class="modal__amount" id="modal-message">$0.00</h1>
+          </div>
+          <button class="button--close-modal" id="closemodal">
+            ЗАБРАТЬ ВЫИГРЫШ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Модальное окно с результатами игры -->
+    <div id="result-modal" class="modal">
+      <div class="modal-content">
+        <h2>Игра завершена!</h2>
+        <div class="final-scores">
+          <div class="player-score">
+            <span class="player-name">Создатель</span>
+            <span class="score" id="creator-final-score">0</span>
+          </div>
+          <div class="player-score">
+            <span class="player-name">Противник</span>
+            <span class="score" id="opponent-final-score">0</span>
+          </div>
+        </div>
+        <div class="winner-info">
+          <h3>Победитель</h3>
+          <div id="winner-name"></div>
+        </div>
+        <button id="close-modal">Закрыть</button>
+      </div>
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="/battle-game.js"></script>
+  </body>
+</html>
+<div style="display: none;background: rgba(238, 50, 50, 0.06);
+" class="turn-info">
+  <div class="turn-status" style="color: rgba(238, 50, 50, 1);">Ход соперника</div>
+  <div class="timer">01:57</div>
+</div>

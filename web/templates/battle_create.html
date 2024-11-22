@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/battle.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Новый баттл</title>
+</head>
+<body>
+    <div class="main-container">
+        <h1 class="title">Новый баттл</h1>
+
+        <div class="wheel-banner">
+            <img src="{{ url_for('static', filename='img/wheel-battle.png') }}" alt="wheel">
+        </div>
+
+        <div class="bet-section">
+            <div class="bet-label">Ваша ставка</div>
+            <div class="bet-input-wrapper">
+                <input type="text" class="bet-input" readonly placeholder="+">
+            </div>
+
+            <div class="quick-bets">
+                <button class="bet-button">$1</button>
+                <button class="bet-button">$2</button>
+                <button class="bet-button">$5</button>
+                <button class="bet-button">$10</button>
+                <button class="bet-button">$25</button>
+                <button class="bet-button">$50</button>
+                <button class="bet-button">$100</button>
+            </div>
+        </div>
+
+        <div class="game-link-section hidden">
+            <div class="link-label">Ссылка на игру</div>
+            <div class="link-description">Поделитесь ссылкой с другом, игра начнется когда он примет приглашение</div>
+            <div class="link-input-wrapper">
+                <input type="text" class="link-input" readonly>
+                <button class="copy-button">
+                    <img src="{{ url_for('static', filename='img/copy.svg') }}" alt="copy">
+                </button>
+            </div>
+            <div class="timer">00:00:00</div>
+        </div>
+
+        <button class="action-button" id="createGameBtn">Создать игру</button>
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="{{ url_for('static', filename='js/battle.js') }}"></script>
+</body>
+</html>

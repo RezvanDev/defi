@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, height=device-height, target-densitydpi=device-dpi"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/deposit.css') }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <title>{{title}}</title>
+</head>
+<body>
+    <div class="content">
+        <div class="container">
+            <div class="headers">
+                <h1>Пополнение баланса</h1>
+            </div>
+            <div class="deposit-form wallet">
+                <img src="{{ url_for('static', filename='assets/usdt_icon.png') }}" alt="USDT Icon" />
+                <input type="number" id="depositAmount" placeholder="Введите сумму USDT" min="1" step="0.01">
+                <button id="createDeposit" class="add_money">Создать депозит</button>
+            </div>
+            <div id="depositInfo" class="wallet" style="display: none;">
+                <h2>Информация о депозите</h2>
+                <p class="amount">Сумма к отправке: <span id="amountToSend"></span> USDT</p>
+                <p class="network">Сеть: <span class="badge">BEP20 (BSC)</span></p>
+                <div id="qrCode" class="qr-code"></div>
+                <div class="copy-field">
+                    <label>Адрес для отправки:</label>
+                    <div class="input-group">
+                        <input type="text" id="depositAddress" readonly>
+                        <button class="copy-btn" data-clipboard-target="#depositAddress">Копировать</button>
+                    </div>
+                </div>
+                <div class="warning">
+                    <p><strong>Важно:</strong> Отправляйте только USDT (BEP20) на этот адрес. Отправка других токенов может привести к потере средств.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/telegram.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/deposit.js') }}"></script>
+</body>
+</html>

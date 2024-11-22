@@ -1,0 +1,153 @@
+:root {
+    --background-dark: #0F1012;
+    --background-input: #1A1D21;
+    --primary-color: #FF2E63;
+    --text-primary: #FFFFFF;
+    --text-secondary: #8F9093;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--background-dark);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+.main-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-top: 12px;
+}
+
+.wheel-banner {
+    width: 100%;
+    height: 140px;
+    background: linear-gradient(135deg, #FF2E63 0%, #FF4B2B 100%);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.wheel-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bet-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.bet-label {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.bet-value {
+    height: 56px;
+    background-color: var(--background-input);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.share-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.share-title {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.share-description {
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--text-secondary);
+}
+
+.link-container {
+    display: flex;
+    gap: 8px;
+}
+
+.share-link {
+    flex: 1;
+    height: 48px;
+    background-color: var(--background-input);
+    border: none;
+    border-radius: 12px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    padding: 0 16px;
+}
+
+.copy-button {
+    width: 48px;
+    height: 48px;
+    background-color: var(--background-input);
+    border: none;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.copy-button:active {
+    background-color: var(--primary-color);
+}
+
+.timer-container {
+    display: flex;
+    justify-content: center;
+    margin: 24px 0;
+}
+
+.timer {
+    background-color: var(--background-input);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.share-button {
+    width: 100%;
+    height: 56px;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: auto;
+}
+
+.share-button:active {
+    opacity: 0.8;
+}
