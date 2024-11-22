@@ -20,7 +20,7 @@ migrate = Migrate(app, db)
 bot = Bot("7651466904:AAHKJ5F_mF_1-VXJD7iHQTC0DdVEHbxrFUo")
 dp = Dispatcher()
 
-WEBAPP_URL = "https://4248-202-79-184-241.ngrok-free.app"
+WEBAPP_URL = "https://defispin.fun"
 
 @dp.message(Command("start"))
 async def start_command(message: types.Message):
