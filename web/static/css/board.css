@@ -24,7 +24,7 @@ button {
 
 .content {
   height: 100vh;
-  background-color: rgba(4, 8, 15, 1);
+  background-color: #080E1B;
   display: flex;
   flex-direction: column;
   padding-bottom: 70px; /* Добавлено пространство для навбара */
@@ -50,6 +50,7 @@ button {
   padding: 12px 0;
   text-align: center;
   font-size: 15px;
+  border-radius: 12px;
 }
 
 .leader_board_title {
@@ -57,12 +58,14 @@ button {
   font-weight: 700;
   font-size: 18px;
   margin-bottom: 4px;
+
 }
 
 .leader_board_subtitle {
   color: rgba(255, 255, 255, 0.6);
   font-weight: 400;
   font-size: 13px;
+
 }
 
 .leader_board_container {
@@ -73,6 +76,7 @@ button {
   overflow: auto;
   flex: 1;
   max-height: calc(100vh - 250px); /* Ограничиваем высоту, учитывая навбар */
+
 }
 
 .leader_board_container::-webkit-scrollbar {

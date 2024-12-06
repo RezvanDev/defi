@@ -11,25 +11,7 @@
     <title>{{title}}</title>
 </head>
 <body>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script type="module" src="{{ url_for('static', filename='js/telegram.js') }}"></script>
-
-    <script>
-    window.addEventListener('load', function() {
-       const preloader = document.querySelector('.preloader');
-       setTimeout(function() {
-          preloader.classList.add('hidden');
-          setTimeout(function() {
-             preloader.style.display = 'none';
-          }, 100);
-       }, 100);
-    });
-    </script>
-    <div class="preloader">
-       <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="" class="logo">
-       <div class="loader"></div>
-    </div>
-
+    <!-- Начало основного содержимого -->
     <div class="content">
         <div class="container">
             <div class="headers">
@@ -42,31 +24,54 @@
                 <p>Баланс для вывода</p>
                 <h1 class="wallet_money">{{current_user.withdrawal_balance}}$</h1>
                 <h2>ВСЕГО ЗАРАБОТАНО: {{current_user.total_earned}}$</h2>
-                <h2>ФРИСПИНЫ: {{current_user.freespins}}</h2>
-<div class="wallet_btns">
+                <div class="wallet_btns">
     <button class="add_money" onclick="window.location.href='{{ url_for('main.deposit') }}'">Пополнить</button>
     <button class="take_money" onclick="window.location.href='{{ url_for('main.withdraw') }}'">Вывести</button>
+    <button class="take_money" onclick="window.location.href='{{ url_for('main.transfer') }}'">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 16V4M7 4L3 8M7 4L11 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M17 8V20M17 20L21 16M17 20L13 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
 </div>
             </div>
+
+            <div class="freespins-card">
+                <div class="freespins-info">
+                    <img src="{{ url_for('static', filename='assets/wallet_coin.png') }}" alt="Фриспины" class="freespins-icon" />
+                    <div class="freespins-text">
+                        <p>Фриспины</p>
+                        <h2>{{current_user.freespins}}</h2>
+                    </div>
+                </div>
+
+            </div>
+
             <div class="headers">
                 <h1>Как заработать?</h1>
             </div>
             <div class="wallet_buttons">
                 <div class="wallet_btn">
-                    <p>Играй и выигрывай!</p>
-                    <h1>Крути колесо</h1>
-                    <button onclick="window.location.href='{{ url_for('main.game') }}'">ИГРАТЬ</button>
-                    <img src="{{ url_for('static', filename='assets/coin_for_howtoplay.png') }}" style="position: absolute; right: 0; bottom: 0" alt="" />
+                    <img src="{{ url_for('static', filename='assets/battle-mode-bg.png') }}" alt="" class="background-image" />
+                    <div class="content-wrapper">
+                        <p>Играй и выигрывай!</p>
+                        <h1>Крути колесо</h1>
+                        <button onclick="window.location.href='{{ url_for('main.game') }}'">ИГРАТЬ</button>
+                    </div>
                 </div>
             </div>
             <div class="wallet_row_btns">
                 <button class="row_btn" onclick="window.location.href='{{ url_for('main.friends') }}'">
-                    <h1>Приглашай друзей</h1>
-                    <img style="position: absolute; right: 0; bottom: 0" src="{{ url_for('static', filename='assets/Gift.png') }}" alt="" />
+                    <img src="{{ url_for('static', filename='assets/rewards-bg.jpg') }}" alt="" class="background-image" />
+                    <div class="content-wrapper">
+                        <h1>Приглашай друзей</h1>
+                    </div>
                 </button>
                 <button class="row_btn" onclick="window.location.href='{{ url_for('main.tasks') }}'">
-                    <h1>Выполняй задания</h1>
-                    <img style="position: absolute; right: 0; bottom: 0" src="{{ url_for('static', filename='assets/wallet-rocket.png') }}" alt="" />
+                    <img src="{{ url_for('static', filename='assets/leaderboard-bg.png') }}" alt="" class="background-image" />
+                    <div class="content-wrapper">
+                        <h1>Выполняй задания</h1>
+                    </div>
                 </button>
             </div>
         </div>

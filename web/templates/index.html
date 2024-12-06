@@ -13,6 +13,7 @@
 <body>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script type="module" src="{{ url_for('static', filename='js/telegram.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
 
     <script>
     window.addEventListener('load', function() {
@@ -32,11 +33,7 @@
 
     <div class="container">
         <ul class="header">
-            <li>
-                <button class="header_btn">
-                    <img src="{{ url_for('static', filename='assets/Ellipse 183.png') }}" alt="" />
-                </button>
-            </li>
+            <li></li>
             <li style="display: flex; flex-direction: column; align-items: center">
                 <span class="header_balance">Баланс</span>
                 <p class="header_price">{{current_user.cash}}$</p>
@@ -48,30 +45,38 @@
             </li>
         </ul>
         <div class="menu_buttons">
-            <button class="play_btn" onclick="window.location.href='{{ url_for('main.game') }}'">
-                <img style="position: absolute; left: 0; bottom: 0" src="{{ url_for('static', filename='assets/Coin.png') }}" alt="" />
-                Играть
-                <img src="{{ url_for('static', filename='assets/Rocket.png') }}" alt="" style="position: absolute; right: 0; top: 0" />
-            </button>
+            <div class="wallet_btn play_btn">
+                <img src="{{ url_for('static', filename='assets/battle-mode-bg.png') }}" alt="" class="background-image" />
+                <div class="content-wrapper">
+                    <p>Играй и выигрывай!</p>
+                    <h1>Крути колесо</h1>
+                    <button onclick="window.location.href='{{ url_for('main.game') }}'">ИГРАТЬ</button>
+                </div>
+            </div>
             <div class="menu_row_btns">
-                <button style="padding: 15px 14px 186px 16px" class="row_btn" onclick="window.location.href='{{ url_for('main.tasks') }}'">
-                    <p>Новинка</p>
-                    <h1>Задания</h1>
-                    <img style="position: absolute; right: 0; bottom: 0" src="{{ url_for('static', filename='assets/Gift.png') }}" alt="" />
+                <button class="row_btn" onclick="window.location.href='{{ url_for('main.tasks') }}'">
+                    <img src="{{ url_for('static', filename='assets/rewards-bg.jpg') }}" alt="" class="background-image" />
+                    <div class="content-wrapper">
+                        <h1>Ежедневные задания</h1>
+                    </div>
                 </button>
-                <button class="row_btn" style="padding: 15px 0 186px 14px; background: linear-gradient(87.9deg, rgba(255, 255, 255, 0.0581) 0.67%, rgba(255, 255, 255, 0.0308) 99.66%), radial-gradient(54.05% 253.3% at 96.99% 66.46%, rgba(44, 246, 101, 0.2) 0%, rgba(44, 246, 101, 0) 100%);" onclick="window.location.href='{{ url_for('main.leaderboard') }}'">
-                    <p>Новинка</p>
-                    <h1>Лидерборд</h1>
-                    <img style="position: absolute; right: 0; bottom: 0" src="{{ url_for('static', filename='assets/trophy.png') }}" alt="" />
+                <button class="row_btn" onclick="window.location.href='{{ url_for('main.leaderboard') }}'">
+                    <img src="{{ url_for('static', filename='assets/leaderboard-bg.png') }}" alt="" class="background-image" />
+                    <div class="content-wrapper">
+                        <h1>Лидерборд</h1>
+                    </div>
                 </button>
             </div>
             <button class="how_to_play">
-                <p>Новинка</p>
-                <h1>Как играть?</h1>
-                <img src="{{ url_for('static', filename='assets/coin_for_howtoplay.png') }}" style="position: absolute; right: 0; bottom: 0" />
+                <img src="{{ url_for('static', filename='assets/howto-bg.png') }}" alt="" class="background-image" />
+                <div class="content-wrapper">
+                    <p>Инструкция</p>
+                    <h1>Как играть?</h1>
+                </div>
             </button>
         </div>
     </div>
+
     <header>
         <nav class="navbar">
             <a href="{{ url_for('main.index') }}" data-page="index">
@@ -97,7 +102,6 @@
         </nav>
     </header>
 
-    <!-- Подключение JavaScript файла для навбара -->
     <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
 </body>
 </html>

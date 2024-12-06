@@ -1,0 +1,78 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: rgba(4, 8, 15, 1);
+    color: white;
+    min-height: 100vh;
+}
+
+.content {
+    padding-bottom: 70px;
+}
+
+.container {
+    padding: 20px;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    background: rgba(29, 35, 50, 0.5);
+    padding: 4px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-button.active {
+    background: rgb(28, 85, 245);
+    color: white;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.history-item {
+    background: linear-gradient(87.5deg, rgba(255, 255, 255, 0.0581) 0%, rgba(255, 255, 255, 0.0308) 137.81%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 15px;
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+/* Навбар стили уже подключены через navbar.css */

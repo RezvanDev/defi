@@ -55,10 +55,10 @@ function getDayStatus(day, currentDay, claimedDays) {
         return {
             image: 'spins_current.png',
             style: {
-                backgroundColor: 'rgba(246, 206, 27, 0.07)',
-                borderColor: 'rgba(246, 206, 27, 1)'
+                backgroundColor: '#FC3F83',
+                borderColor: '#FC3F83'
             },
-            textStyle: 'style="color: rgba(246, 206, 27, 1);"'
+            textStyle: 'style="color: #FFFFFF;"'
         };
     } else {
         return {

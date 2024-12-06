@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, height=device-height, target-densitydpi=device-dpi"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+    <title>История</title>
+</head>
+<body>
+    <div class="content">
+        <div class="container">
+            <h1 class="page-title">История</h1>
+
+            <div class="tabs">
+                <button class="tab-button active" data-tab="deposits">Пополнения</button>
+                <button class="tab-button" data-tab="spins">Спины</button>
+            </div>
+
+            <div class="tab-content active" id="deposits">
+                {% if deposits %}
+                    {% for deposit in deposits %}
+                    <div class="history-item">
+                        <!-- Добавьте содержимое для каждого пополнения -->
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <p>История пополнений пуста</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="tab-content" id="spins">
+                {% if spins %}
+                    {% for spin in spins %}
+                    <div class="history-item">
+                        <!-- Добавьте содержимое для каждого спина -->
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <p>История спинов пуста</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <nav class="navbar">
+            <a href="{{ url_for('main.index') }}" data-page="index">
+                <i><img src="{{ url_for('static', filename='assets/navbar_menu.png') }}" alt="Меню" /></i>
+                <span>Меню</span>
+            </a>
+            <a href="{{ url_for('main.tasks') }}" data-page="tasks">
+                <i><img src="{{ url_for('static', filename='assets/navbar_trophy.png') }}" alt="Задания" /></i>
+                <span>Задания</span>
+            </a>
+            <a href="{{ url_for('main.game') }}" class="middle" data-page="game">
+                <i><img src="{{ url_for('static', filename='assets/navbar_gamepad.png') }}" alt="Играть" /></i>
+                <span>Играть</span>
+            </a>
+            <a href="{{ url_for('main.friends') }}" data-page="friends">
+                <i><img src="{{ url_for('static', filename='assets/navbar_user.png') }}" alt="Друзья" /></i>
+                <span>Друзья</span>
+            </a>
+            <a href="{{ url_for('main.wallet') }}" data-page="wallet">
+                <i><img src="{{ url_for('static', filename='assets/navbar_wallet.png') }}" alt="Кошелек" /></i>
+                <span>Кошелек</span>
+            </a>
+        </nav>
+    </header>
+
+    <script>
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                button.classList.add('active');
+
+                const tabId = button.dataset.tab;
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

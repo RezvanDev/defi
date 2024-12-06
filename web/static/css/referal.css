@@ -27,13 +27,13 @@ button {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  padding-bottom: 70px; /* Добавлено пространство для навбара */
+  padding-bottom: 70px;
 }
 
 .content {
   flex: 1;
-  background-color: rgba(4, 8, 15, 1);
-  padding: 0 20px 16px; /* Увеличен нижний отступ */
+  background-color: #080E1B;
+  padding: 0 20px 16px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -41,6 +41,17 @@ button {
 
 .headers {
   padding: 19px 0;
+}
+
+.header-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-icon {
+  width: 24px;
+  height: 24px;
 }
 
 .headers h1 {
@@ -55,39 +66,54 @@ button {
   gap: 10px;
 }
 
-.referal_btn {
+.wallet_btn {
   position: relative;
   color: rgba(255, 255, 255, 1);
   border-radius: 15px;
-  background: linear-gradient(88.3deg, rgba(255, 255, 255, 0.0581) 0%, rgba(255, 255, 255, 0.0308) 99.66%),
-              radial-gradient(54.05% 253.3% at 96.99% 66.46%, rgba(44, 88, 246, 0.2) 0%, rgba(44, 88, 246, 0) 100%);
-  text-align: left;
-  padding: 10px;
+  overflow: hidden;
+  min-height: 50px;
 }
 
-.referal_btn p {
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.content-wrapper {
+  position: relative;
+  z-index: 2;
+  padding: 16px;
+  height: 100%;
+  width: 100%;
+}
+
+.wallet_btn p {
   color: rgba(255, 255, 255, 0.7);
   font-weight: 400;
-  font-size: 9px;
+  font-size: 10px;
 }
 
-.referal_btn h1 {
+.wallet_btn h1 {
   color: rgba(255, 255, 255, 1);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
-  margin: 3px 0 0 0;
+  margin: 4px 0 0 0;
 }
 
-.referal_btn button {
-  background: linear-gradient(88.3deg, rgba(255, 255, 255, 0.083) 0%, rgba(255, 255, 255, 0.044) 99.66%),
-              linear-gradient(0deg, #2c51f6, #2c51f6);
+.wallet_btn button {
+  background: linear-gradient(180deg, #FC3F83 0%, #F0216C 100%);
   border: 1px solid rgba(34, 180, 150, 0);
   border-radius: 10px;
-  padding: 6px 20px;
+  padding: 8px 24px;
   color: rgba(255, 255, 255, 1);
   font-weight: 400;
-  font-size: 9px;
-  margin: 14px 0 0 0;
+  font-size: 10px;
+  margin: 16px 0 0 0;
 }
 
 .how_it_works {
@@ -126,23 +152,25 @@ button {
   color: rgba(255, 255, 255, 1);
 }
 
-.how_it_works button {
+.invite-btn {
   background-color: rgba(246, 44, 117, 1);
   color: rgba(255, 255, 255, 1);
   border-radius: 12px;
   text-align: center;
-  padding: 10px 0;
-  margin-top: 8px;
-  font-size: 12px;
+  padding: 15px 0;
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  width: 100%;
 }
 
 .referal_container {
   border-radius: 15px;
   background-color: rgba(255, 255, 255, 0.04);
   padding: 10px 12px;
-  margin-top: 20px; /* Изменено с vh на фиксированное значение */
+  margin-top: 20px;
   overflow: auto;
-  max-height: calc(50vh - 90px); /* Увеличена высота, чтобы компенсировать навбар */
+  max-height: calc(50vh - 90px);
 }
 
 .referal_container::-webkit-scrollbar {
@@ -185,10 +213,6 @@ span p {
   font-size: 10px;
 }
 
-
-
-
-/* Стили для прелоадера */
 .preloader {
   position: fixed;
   top: 0;

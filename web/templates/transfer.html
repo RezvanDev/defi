@@ -5,20 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/battle.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <title>Новый баттл</title>
+    <title>Перевод баланса</title>
 </head>
 <body>
     <div class="main-container">
-        <h1 class="title">Новый баттл</h1>
+        <h1 class="title">Перевод баланса</h1>
 
-        <div class="wheel-banner">
-            <img src="{{ url_for('static', filename='img/wheel-battle.png') }}" alt="wheel">
+        <div class="balances-info">
+            <div class="balance-item">
+                <span class="balance-label">Баланс для вывода</span>
+                <span class="balance-amount">${{ "%.2f"|format(current_user.withdrawal_balance) }}</span>
+            </div>
+            <div class="balance-item">
+                <span class="balance-label">Игровой баланс</span>
+                <span class="balance-amount">${{ "%.2f"|format(current_user.cash) }}</span>
+            </div>
         </div>
 
-        <div class="bet-section">
-            <div class="bet-label">Ваша ставка</div>
+        <div class="transfer-section">
+            <div class="bet-label">Сумма перевода</div>
             <div class="bet-input-wrapper">
-                <input type="text" class="bet-input" readonly placeholder="+" id="betInput">
+                <input type="text" class="bet-input" readonly placeholder="+" id="transferInput">
             </div>
 
             <div class="quick-bets">
@@ -32,19 +39,7 @@
             </div>
         </div>
 
-        <div class="game-link-section hidden">
-            <div class="link-label">Ссылка на игру</div>
-            <div class="link-description">Поделитесь ссылкой с другом, игра начнется когда он примет приглашение</div>
-            <div class="link-input-wrapper">
-                <input type="text" class="link-input" readonly>
-                <button class="copy-button">
-                    <img src="{{ url_for('static', filename='img/copy.svg') }}" alt="copy">
-                </button>
-            </div>
-            <div class="timer">00:00:00</div>
-        </div>
-
-        <button class="action-button" id="createGameBtn" disabled>Создать игру</button>
+        <button class="action-button" id="transferBtn" disabled>Перевести в игровой баланс</button>
     </div>
 
     <!-- Модальное окно с клавиатурой -->
@@ -83,7 +78,7 @@
         </div>
     </div>
 
+    <script src="{{ url_for('static', filename='js/transfer.js') }}"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="{{ url_for('static', filename='js/battle.js') }}"></script>
 </body>
 </html>

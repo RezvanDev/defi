@@ -14,7 +14,7 @@ body, html {
   font-family: "Inter", sans-serif;
   height: 100%;
   overflow: hidden;
-  background-color: rgba(4, 8, 15, 1);
+background-color: #080E1B;
 }
 
 button {
@@ -26,13 +26,13 @@ button {
 .content {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 90vh;
 }
 
 .container {
   flex: 1;
   overflow-y: auto;
-  padding: 0 20px 70px; /* Добавлен нижний padding для учета высоты navbar */
+  padding: 0 20px 70px;
 }
 
 .headers {
@@ -51,8 +51,8 @@ button {
   justify-content: center;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(87.5deg, rgba(255, 255, 255, 0.0581) 0%, rgba(255, 255, 255, 0.0308) 137.81%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(359.22deg, rgba(43, 80, 244, 0) 4.64%, rgba(43, 80, 244, 0.09) 99.35%), #141A26;
+
   padding: 16px;
   border-radius: 15px;
   margin-bottom: 20px;
@@ -66,7 +66,7 @@ button {
 
 .wallet img {
   width: auto;
-  height: 40px;
+  height: 60px;
 }
 
 .wallet_money {
@@ -89,7 +89,7 @@ button {
 
 .add_money, .take_money {
   font-weight: 600;
-  font-size: 10px;
+  font-size: 15px;
   color: rgba(255, 255, 255, 1);
   border-radius: 8px;
   padding: 10px 30px;
@@ -100,7 +100,7 @@ button {
 }
 
 .take_money {
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(29, 41, 57, 1);
 }
 
 .wallet_buttons {
@@ -113,10 +113,27 @@ button {
   position: relative;
   color: rgba(255, 255, 255, 1);
   border-radius: 15px;
-  background: linear-gradient(88.3deg, rgba(255, 255, 255, 0.0581) 0%, rgba(255, 255, 255, 0.0308) 99.66%),
-              radial-gradient(54.05% 253.3% at 96.99% 66.46%, rgba(44, 88, 246, 0.2) 0%, rgba(44, 88, 246, 0) 100%);
-  text-align: left;
+  overflow: hidden;
+  min-height: 100px;
+}
+
+.wallet_btn .background-image,
+.row_btn .background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wallet_btn .content-wrapper {
+  position: relative;
+  z-index: 2;
   padding: 16px;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(88.3deg, rgba(255, 255, 255, 0.0581) 0%, rgba(255, 255, 255, 0.0308) 99.66%);
 }
 
 .wallet_btn p {
@@ -133,8 +150,8 @@ button {
 }
 
 .wallet_btn button {
-  background: linear-gradient(88.3deg, rgba(255, 255, 255, 0.083) 0%, rgba(255, 255, 255, 0.044) 99.66%),
-              linear-gradient(0deg, #2c51f6, #2c51f6);
+  background: linear-gradient(180deg, #FC3F83 0%, #F0216C 100%);
+
   border: 1px solid rgba(34, 180, 150, 0);
   border-radius: 10px;
   padding: 8px 24px;
@@ -154,42 +171,29 @@ button {
 .row_btn {
   display: flex;
   flex-direction: column;
-  background: linear-gradient(87.9deg, rgba(255, 255, 255, 0.0581) 0.67%, rgba(255, 255, 255, 0.0308) 99.66%),
-              radial-gradient(54.05% 253.3% at 96.99% 66.46%, rgba(246, 189, 44, 0.2) 0%, rgba(246, 189, 44, 0) 100%);
   border-radius: 15px;
-  text-align: left;
   flex-grow: 1;
-  padding: 20px 16px 110px 16px;
   position: relative;
   overflow: hidden;
+  min-height: 150px;
+}
+
+.row_btn .content-wrapper {
+  position: relative;
+  z-index: 2;
+  padding: 20px 16px;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(87.9deg, rgba(255, 255, 255, 0.0581) 0.67%, rgba(255, 255, 255, 0.0308) 99.66%);
 }
 
 .row_btn h1 {
   font-weight: 500;
   color: rgba(255, 255, 255, 1);
   font-size: 16px;
-  position: relative;
-  z-index: 2;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Добавляем тень для лучшей читаемости */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-.row_btn img {
-  position: absolute;
-  right: -10px;
-  bottom: -10px;
-  width: 100px; /* Увеличиваем размер изображения */
-  height: auto;
-  opacity: 0.8; /* Немного увеличиваем непрозрачность */
-  z-index: 1;
-  transform: rotate(10deg); /* Немного поворачиваем изображение для динамичности */
-}
-
-
-
-
-
-
-/* Стили для прелоадера */
 .preloader {
   position: fixed;
   top: 0;
@@ -224,7 +228,66 @@ button {
   animation: spin 1s linear infinite;
 }
 
+.freespins-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(0deg, #141A26, #141A26),
+                linear-gradient(359.22deg, rgba(43, 80, 244, 0) 0%, rgba(43, 80, 244, 0.09) 9%);
+    border-radius: 15px;
+    padding: 16px 20px;
+    margin: 20px 0;
+}
+
+.freespins-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.freespins-icon {
+    width: auto;
+    height: 50px;
+}
+
+
+.freespins-text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.freespins-text p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.freespins-text h2 {
+    color: white;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.history-btn {
+    background-color: rgb(29, 35, 50);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.history-btn:hover {
+    background-color: rgb(35, 42, 60);
+}
+
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+

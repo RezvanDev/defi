@@ -17,10 +17,10 @@ logger = logging.getLogger(__name__)
 app = create_app()
 migrate = Migrate(app, db)
 
-bot = Bot("7651466904:AAHKJ5F_mF_1-VXJD7iHQTC0DdVEHbxrFUo")
+bot = Bot("7560565901:AAEuLc2tAr50-PQsP89CovJFX6CMlqoaLXo")
 dp = Dispatcher()
 
-WEBAPP_URL = "https://4248-202-79-184-241.ngrok-free.app"
+WEBAPP_URL = "http://spin2win2.fun"
 
 @dp.message(Command("start"))
 async def start_command(message: types.Message):

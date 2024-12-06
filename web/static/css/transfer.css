@@ -1,0 +1,33 @@
+/* Добавьте эти стили в ваш существующий CSS файл */
+.balances-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.balance-item {
+    background-color: var(--background-input);
+    padding: 16px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.balance-label {
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+
+.balance-amount {
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.transfer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}

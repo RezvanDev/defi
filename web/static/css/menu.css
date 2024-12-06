@@ -25,7 +25,7 @@ button {
 .container {
   width: 100%;
   height: 100vh;
-  background-color: rgba(4, 8, 15, 1);
+  background-color: #080E1B;
   display: flex;
   flex-direction: column;
   padding: 10px;
@@ -36,6 +36,8 @@ button {
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
+  position: relative;
+  z-index: 5;
 }
 
 .header_balance {
@@ -57,33 +59,82 @@ button {
   flex-grow: 1;
 }
 
-.menu_buttons button {
-  display: block;
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.wallet_btn.play_btn {
+  position: relative;
+  color: rgba(255, 255, 255, 1);
+  border-radius: 15px;
+  overflow: hidden;
+  min-height: 150px;
+}
+
+.wallet_btn.play_btn .content-wrapper {
+  position: relative;
+  z-index: 2;
+  padding: 30px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.wallet_btn.play_btn p {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+  font-size: 10px;
+}
+
+.wallet_btn.play_btn h1 {
+  color: rgba(255, 255, 255, 1);
+  font-size: 16px;
+  font-weight: 500;
+  margin: 4px 0 0 0;
+}
+
+.wallet_btn.play_btn button {
+  background: linear-gradient(180deg, #FC3F83 0%, #F0216C 100%);
+  border: 1px solid rgba(34, 180, 150, 0);
+  border-radius: 10px;
+  padding: 8px 24px;
+  color: rgba(255, 255, 255, 1);
+  font-weight: 400;
+  font-size: 10px;
+  margin: 16px 20px 0 0;
 }
 
 .play_btn {
   color: rgba(255, 255, 255, 1);
   font-weight: 700;
   font-size: 28px;
-  padding: 30px 0;
   border-radius: 15px;
-  background: linear-gradient(
-      88.3deg,
-      rgba(255, 255, 255, 0.0581) 0%,
-      rgba(255, 255, 255, 0.0308) 99.66%
-    ),
-    radial-gradient(
-      75.07% 285.33% at -14.73% -83.59%,
-      rgba(246, 44, 117, 0.2) 0%,
-      rgba(246, 44, 117, 0) 100%
-    ),
-    radial-gradient(
-      54.05% 253.3% at 96.99% 66.46%,
-      rgba(44, 81, 246, 0.4) 0%,
-      rgba(44, 81, 246, 0) 100%
-    );
   text-align: center;
   position: relative;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play_btn .content-wrapper {
+  position: absolute;
+  top: 0;
+  left: -100px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
 }
 
 .menu_row_btns {
@@ -95,27 +146,28 @@ button {
 .row_btn {
   display: flex;
   flex-direction: column;
-  background: linear-gradient(
-      87.9deg,
-      rgba(255, 255, 255, 0.0581) 0.67%,
-      rgba(255, 255, 255, 0.0308) 99.66%
-    ),
-    radial-gradient(
-      54.05% 253.3% at 96.99% 66.46%,
-      rgba(246, 189, 44, 0.2) 0%,
-      rgba(246, 189, 44, 0) 100%
-    );
   border-radius: 15px;
   text-align: left;
   flex-grow: 1;
-  padding: 15px 15px 100px 15px;
   position: relative;
+  min-height: 220px;
+  overflow: hidden;
+}
+
+.row_btn .content-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  z-index: 2;
 }
 
 .row_btn p {
   font-size: 14px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 1);
 }
 
 .row_btn h1 {
@@ -128,23 +180,24 @@ button {
   position: relative;
   color: rgba(255, 255, 255, 1);
   border-radius: 15px;
-  background: linear-gradient(
-      88.3deg,
-      rgba(255, 255, 255, 0.0581) 0%,
-      rgba(255, 255, 255, 0.0308) 99.66%
-    ),
-    radial-gradient(
-      54.05% 253.3% at 96.99% 66.46%,
-      rgba(44, 88, 246, 0.2) 0%,
-      rgba(44, 88, 246, 0) 100%
-    );
-  padding: 15px 15px 50px 15px;
+  min-height: 120px;
+  overflow: hidden;
+}
+
+.how_to_play .content-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  z-index: 2;
 }
 
 .how_to_play p {
   font-size: 14px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 1);
 }
 
 .how_to_play h1 {
@@ -153,7 +206,6 @@ button {
   font-size: 20px;
 }
 
-/* Стили для прелоадера */
 .preloader {
   position: fixed;
   top: 0;

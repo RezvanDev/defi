@@ -1,141 +1,149 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 ul, ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 body, html {
-  font-family: "Inter", sans-serif;
-  height: 100%;
-  overflow: hidden;
+    font-family: "Inter", sans-serif;
+    height: 100%;
+    overflow: hidden;s
+    background-color: #080E1B;
 }
 
 button {
-  all: unset;
-  font-family: "Inter", sans-serif;
-  cursor: pointer;
+    all: unset;
+    font-family: "Inter", sans-serif;
+    cursor: pointer;
 }
 
 .content {
-  height: 100vh;
-  background-color: rgba(4, 8, 15, 1);
-  background-image: url(../assets/Group\ 1171275208.png);
-  background-position: bottom;
-  background-size: 100%;
-  background-repeat: no-repeat;
-  display: flex;
-  flex-direction: column;
-  padding: 0 16px;
+    height: 100vh;
+    background-color: #080E1B;
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px;
+    padding-bottom: 10px; /* Для нижнего меню */
 }
 
 .container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .header {
-  padding: 25px 0;
+    padding: 25px 0;
 }
 
 .header h1 {
-  color: rgba(255, 255, 255, 1);
-  font-weight: 700;
-  font-size: 22px;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 22px;
 }
 
 .game_buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .play_btn {
-  color: rgba(255, 255, 255, 1);
-  font-weight: 700;
-  font-size: 28px;
-  padding: 44px 0;
-  border-radius: 15px;
-  background: linear-gradient(
-      88.3deg,
-      rgba(255, 255, 255, 0.0581) 0%,
-      rgba(255, 255, 255, 0.0308) 99.66%
-    ),
-    radial-gradient(
-      75.07% 285.33% at -14.73% -83.59%,
-      rgba(246, 44, 117, 0.2) 0%,
-      rgba(246, 44, 117, 0) 100%
-    ),
-    radial-gradient(
-      54.05% 253.3% at 96.99% 66.46%,
-      rgba(44, 81, 246, 0.4) 0%,
-      rgba(44, 81, 246, 0) 100%
-    );
-  text-align: center;
-  position: relative;
+    width: 100%;
+    height: 160px;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
 }
 
-.play_btn img {
-  position: absolute;
-  width: auto;
-  height: auto;
+.single_mode {
+    background-image: url('../assets/battle-mode-bg.png');
 }
 
-.play_btn img:first-of-type {
-  left: 0;
-  bottom: 0;
+.battle_mode {
+    background-image: url('../assets/single-mode-bg.png');
 }
 
-.play_btn img:last-of-type {
-  right: 0;
-  top: 0;
+.btn_content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+
 }
 
+.text_container {
+    color: white;
+    text-align: left;
+    max-width: 60%;
+}
 
+.text_container h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.text_container p {
+    font-size: 14px;
+    opacity: 0.8;
+}
 
 /* Стили для прелоадера */
 .preloader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(4, 8, 15, 1);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  transition: opacity 0.3s ease-out;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #04080F;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.3s ease-out;
 }
 
 .preloader.hidden {
-  opacity: 0;
+    opacity: 0;
 }
 
 .preloader .logo {
-  width: 80px;
-  height: auto;
-  margin-bottom: 15px;
+    width: 80px;
+    height: auto;
+    margin-bottom: 15px;
 }
 
 .loader {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Мобильная оптимизация */
+@media (max-width: 380px) {
+    .text_container h2 {
+        font-size: 20px;
+    }
+
+    .text_container p {
+        font-size: 12px;
+    }
 }

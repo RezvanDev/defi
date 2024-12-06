@@ -1,4 +1,3 @@
-
 const tg = window.Telegram.WebApp;
 
 const wheel = document.getElementById("wheel");
@@ -7,10 +6,10 @@ const spinButton = document.getElementById("spin-button");
 const turnStatus = document.querySelector(".turn-status");
 const timerDisplay = document.querySelector(".timer");
 
-
 const battleId = document.body.dataset.battleId;
 const isCreator = document.body.dataset.isCreator === "true";
-
+const creatorNickname = document.body.dataset.creatorNickname;
+const opponentNickname = document.body.dataset.opponentNickname;
 
 const WHEEL_CONFIG = {
   width: 300,
@@ -19,7 +18,6 @@ const WHEEL_CONFIG = {
   numbers: Array.from({ length: 42 }, (_, i) => i + 1),
   colors: ["#6814EB", "#B12BB2", "#F48523", "#AD1D14", "#F62C2C"],
 };
-
 
 let gameState = {
   isSpinning: false,
@@ -34,14 +32,12 @@ let gameState = {
   movesCount: 0
 };
 
-
 wheel.width = WHEEL_CONFIG.width;
 wheel.height = WHEEL_CONFIG.height;
 const centerX = wheel.width / 2;
 const centerY = wheel.height / 2;
 const segments = WHEEL_CONFIG.numbers.length;
 const segmentAngle = (Math.PI * 2) / segments;
-
 
 function generateSections() {
   let numbers = [...WHEEL_CONFIG.numbers];
@@ -72,7 +68,6 @@ function vibrateDevice(type) {
 function drawWheel() {
   ctx.clearRect(0, 0, wheel.width, wheel.height);
 
-  // Золотая окантовка
   ctx.beginPath();
   ctx.arc(centerX, centerY, WHEEL_CONFIG.radius + 5, 0, Math.PI * 2);
   ctx.strokeStyle = "#D41000";
@@ -85,7 +80,6 @@ function drawWheel() {
     const startAngle = gameState.currentAngle + segmentAngle * i;
     const endAngle = startAngle + segmentAngle;
 
-    // сегмент
     ctx.beginPath();
     ctx.moveTo(centerX, centerY);
     ctx.arc(centerX, centerY, WHEEL_CONFIG.radius, startAngle, endAngle);
@@ -93,7 +87,6 @@ function drawWheel() {
     ctx.fillStyle = WHEEL_CONFIG.colors[i % WHEEL_CONFIG.colors.length];
     ctx.fill();
 
-    //  число
     const midAngle = (startAngle + endAngle) / 2;
     const textRadius = WHEEL_CONFIG.radius * 0.9;
     ctx.save();
@@ -155,7 +148,6 @@ function getResult() {
   const resultIndex = Math.floor((Math.PI * 2 - normalizedAngle) / segmentAngle) % segments;
   return gameState.sections[resultIndex];
 }
-
 
 function saveResult(result) {
   gameState.movesCount++;
@@ -263,7 +255,19 @@ function updateGameState(state) {
   const isMyTurn = isCreator ? isCreatorTurn : !isCreatorTurn;
   const canMakeMove = isMyTurn && totalMoves < 6;
 
-  turnStatus.textContent = isMyTurn ? "Ваш ход" : "Ход соперника";
+  turnStatus.textContent = isMyTurn ? "Ваш ход" : `Ход ${isCreator ? opponentNickname : creatorNickname}`;
+
+  const player1Nickname = document.getElementById('player1-nickname');
+  const player2Nickname = document.getElementById('player2-nickname');
+
+  if (isCreator) {
+    player1Nickname.textContent = creatorNickname;
+    player2Nickname.textContent = opponentNickname;
+  } else {
+    player1Nickname.textContent = opponentNickname;
+    player2Nickname.textContent = creatorNickname;
+  }
+
   gameState.canSpin = canMakeMove;
   spinButton.disabled = !canMakeMove;
   spinButton.classList.toggle("disabled", !canMakeMove);
@@ -285,7 +289,6 @@ function updateGameState(state) {
     }
   }
 
-
   const isGameComplete = creatorScores.filter(s => s !== undefined).length === 3 &&
                         opponentScores.filter(s => s !== undefined).length === 3;
 
@@ -293,46 +296,61 @@ function updateGameState(state) {
     const creatorTotal = creatorScores.reduce((sum, score) => sum + (score || 0), 0);
     const opponentTotal = opponentScores.reduce((sum, score) => sum + (score || 0), 0);
 
-
     const isWinner = isCreator ?
       creatorTotal > opponentTotal :
       opponentTotal > creatorTotal;
 
-
-    const winningAmount = state.bet_amount * 2;
-
-
-    if (isWinner) {
-      saveGameResult(true, winningAmount);
-    }
-
+    const totalBet = state.bet_amount * 2;
+    const commission = totalBet * 0.1; // 10% комиссия
+    const winAmount = totalBet - commission;
 
     const creatorFinalScore = document.getElementById("creator-final-score");
     const opponentFinalScore = document.getElementById("opponent-final-score");
-    const winnerName = document.getElementById("winner-name");
+    const gameResultMessage = document.getElementById("game-result-message");
+    const finalCreatorNickname = document.getElementById("final-creator-nickname");
+    const finalOpponentNickname = document.getElementById("final-opponent-nickname");
     const resultModal = document.getElementById("result-modal");
-    const modalMessage = document.getElementById("modal-message");
+    const claimWinButton = document.getElementById("claim-win");
+    const closeModalButton = document.getElementById("close-modal");
+
+    if (finalCreatorNickname) finalCreatorNickname.textContent = creatorNickname;
+    if (finalOpponentNickname) finalOpponentNickname.textContent = opponentNickname;
 
     if (creatorFinalScore) creatorFinalScore.textContent = creatorTotal;
     if (opponentFinalScore) opponentFinalScore.textContent = opponentTotal;
 
-    if (winnerName) {
-      winnerName.textContent = isWinner ? "Вы победили!" : "Вы проиграли";
+    // Обновляем сообщение о результате игры
+    if (gameResultMessage) {
+      if (isWinner) {
+        gameResultMessage.textContent = "Вы победили";
+      } else {
+        gameResultMessage.textContent = "Вы проиграли";
+      }
     }
-
 
     if (resultModal) {
       resultModal.style.display = "flex";
       resultModal.style.opacity = "1";
     }
 
-
-    if (modalMessage && isWinner) {
-      modalMessage.textContent = `$${winningAmount.toFixed(2)}`;
+    if (isWinner) {
+      if (claimWinButton) {
+        claimWinButton.style.display = "block";
+        claimWinButton.textContent = `Забрать выигрыш`;
+      }
+      if (closeModalButton) {
+        closeModalButton.style.display = "none";
+      }
+    } else {
+      if (claimWinButton) {
+        claimWinButton.style.display = "none";
+      }
+      if (closeModalButton) {
+        closeModalButton.style.display = "block";
+      }
     }
   }
 }
-
 
 function init() {
   gameState.sections = generateSections();
@@ -349,18 +367,36 @@ function init() {
     }
   });
 
-
   const closeModalButton = document.getElementById("close-modal");
-  const closeWinModalButton = document.getElementById("closemodal");
+  const claimWinButton = document.getElementById("claim-win");
+
+  if (claimWinButton) {
+    claimWinButton.addEventListener("click", function() {
+      fetch(`/battle/${battleId}/claim_win`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          tg.showAlert(`Выигрыш ${data.amount.toFixed(2)}$ зачислен (комиссия: ${data.commission.toFixed(2)}$)`, () => {
+            window.location.href = "/game";
+          });
+        } else {
+          tg.showAlert(data.message || "Произошла ошибка при получении выигрыша");
+        }
+      })
+      .catch(error => {
+        console.error("Ошибка:", error);
+        tg.showAlert("Произошла ошибка при получении выигрыша");
+      });
+    });
+}
 
   if (closeModalButton) {
     closeModalButton.addEventListener("click", () => {
-      window.location.href = "/game";
-    });
-  }
-
-  if (closeWinModalButton) {
-    closeWinModalButton.addEventListener("click", () => {
       window.location.href = "/game";
     });
   }
@@ -373,3 +409,5 @@ function init() {
 }
 
 document.addEventListener("DOMContentLoaded", init);
+
+

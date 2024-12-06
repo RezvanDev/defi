@@ -7,10 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-    rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
     <title>{{title}}</title>
 </head>
 <body>
@@ -36,18 +33,18 @@
     <div class="content">
         <div class="container">
             <div class="headers">
-                <h1>Приглашай друзей</h1>
+                <div class="header-with-icon">
+                    <h1>Приглашай друзей</h1>
+                </div>
             </div>
             <div class="referal_buttons">
-                <div class="referal_btn">
-                    <p>Играй и выигрывай!</p>
-                    <h1>Крути колесо</h1>
-                    <button onclick="window.location.href='{{ url_for('main.game') }}'">ИГРАТЬ</button>
-                    <img
-                    src="{{ url_for('static', filename='assets/coin_for_howtoplay.png') }}"
-                    style="position: absolute; right: 0; bottom: 0"
-                    alt=""
-                    />
+                <div class="wallet_btn">
+                    <img src="{{ url_for('static', filename='assets/battle-mode-bg.png') }}" alt="" class="background-image" />
+                    <div class="content-wrapper">
+                        <p>Играй и выигрывай!</p>
+                        <h1>Крути колесо</h1>
+                        <button onclick="window.location.href='{{ url_for('main.game') }}'">ИГРАТЬ</button>
+                    </div>
                 </div>
             </div>
             <div class="how_it_works">
@@ -62,7 +59,7 @@
                         <p>Когда присоединится к spin2win по твоей ссылке</p>
                     </li>
                 </ol>
-                <button id="inviteButton">ПРИГЛАСИТЬ</button>
+                <button id="inviteButton" class="invite-btn">Пригласить друга</button>
             </div>
             <div class="headers" style="padding: 32px 0 24px 0;">
                 <h1 style="font-weight: 400;">Приглашенные друзья</h1>

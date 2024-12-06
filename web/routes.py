@@ -5,6 +5,7 @@ from .coinpayments_config import coinpayments_api
 from datetime import datetime, timedelta
 import logging
 from flask_socketio import SocketIO, emit, join_room, leave_room
+import uuid
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -197,6 +198,12 @@ def wallet():
 def game():
     return render_template("game.html", title="Игра")
 
+@main_bp.route("/history")
+@login_required
+def history():
+    return render_template("history.html", title="История")
+
+
 @main_bp.route("/cooperation")
 def cooperation():
     return render_template("cooperation.html", title="Сотрудничество")
@@ -205,6 +212,7 @@ def cooperation():
 @login_required
 def wheel():
     return render_template("wheel.html", title="Игровое колесо")
+
 
 @main_bp.route("/get_tasks_status")
 @login_required
@@ -480,7 +488,7 @@ def battle_wait(battle_id):
             return redirect(url_for('main.game'))
 
 
-        bot_username = "DeFiSpinBot"
+        bot_username = "fkdmfkdmfkdbot"
         battle_link = f"https://t.me/{bot_username}?start=battle_{battle_id}"
 
         return render_template(
@@ -637,6 +645,10 @@ def battle_game(battle_id):
 
         is_creator = current_user.id == battle.creator_id
 
+
+        creator = User.query.get(battle.creator_id)
+        opponent = User.query.get(battle.opponent_id)
+
         logger.info(f"Rendering battle game page. Battle ID: {battle_id}, Is Creator: {is_creator}")
 
         return render_template(
@@ -644,7 +656,9 @@ def battle_game(battle_id):
             title="Баттл",
             battle=battle,
             battle_id=battle_id,
-            is_creator=is_creator
+            is_creator=is_creator,
+            creator_nickname=creator.username,
+            opponent_nickname=opponent.username
         )
     except Exception as e:
         logger.error(f"Error in battle game: {e}")
@@ -754,6 +768,9 @@ def battle_state(battle_id):
             }), 400
 
 
+        creator = User.query.get(battle.creator_id)
+        opponent = User.query.get(battle.opponent_id)
+
         last_round = battle.rounds[-1] if battle.rounds else None
         is_creator_turn = True
 
@@ -763,15 +780,12 @@ def battle_state(battle_id):
             elif last_round.opponent_score is None:
                 is_creator_turn = False
             else:
-
                 is_creator_turn = True
-
 
         is_finished = len(battle.rounds) >= 3 and all(
             round.creator_score is not None and round.opponent_score is not None
             for round in battle.rounds
         )
-
 
         game_state = {
             'scores': {
@@ -781,11 +795,12 @@ def battle_state(battle_id):
             'current_round': len(battle.rounds),
             'is_creator_turn': is_creator_turn,
             'is_finished': is_finished,
-            'status': battle.status
+            'status': battle.status,
+            'creator_nickname': creator.username,
+            'opponent_nickname': opponent.username
         }
 
         if is_finished:
-
             creator_total = sum(round.creator_score or 0 for round in battle.rounds)
             opponent_total = sum(round.opponent_score or 0 for round in battle.rounds)
             game_state['totals'] = {
@@ -804,3 +819,104 @@ def battle_state(battle_id):
             'success': False,
             'message': 'Произошла ошибка при получении состояния игры'
         }), 500
+
+
+@main_bp.route("/transfer")
+@login_required
+def transfer():
+    return render_template("transfer.html", title="Перевод баланса")
+
+
+@main_bp.route("/transfer_balance", methods=['POST'])
+@login_required
+def transfer_balance():
+    try:
+        amount = float(request.json.get('amount', 0))
+
+        if amount <= 0:
+            return jsonify({
+                'success': False,
+                'message': 'Неверная сумма перевода'
+            })
+
+        if amount > current_user.withdrawal_balance:
+            return jsonify({
+                'success': False,
+                'message': 'Недостаточно средств для перевода'
+            })
+
+        #запись о переводе в транзакциях
+        transfer = Transaction(
+            user_id=current_user.id,
+            amount=amount,
+            transaction_type='transfer',
+            status='completed',
+            transaction_id=str(uuid.uuid4()),
+            completed_at=datetime.utcnow(),
+            target_balance='cash'
+        )
+
+        current_user.withdrawal_balance -= amount
+        current_user.cash += amount
+
+        db.session.add(transfer)
+        db.session.commit()
+
+        return jsonify({
+            'success': True,
+            'message': 'Средства успешно переведены'
+        })
+
+    except Exception as e:
+        logger.error(f"Error in transfer_balance: {str(e)}")
+        db.session.rollback()
+        return jsonify({
+            'success': False,
+            'message': 'Произошла ошибка при переводе средств'
+        })
+
+@main_bp.route("/battle/<int:battle_id>/claim_win", methods=['POST'])
+@login_required
+def claim_battle_win(battle_id):
+    try:
+        battle = Battle.query.get_or_404(battle_id)
+
+        if battle.status != 'completed':
+            creator_total = sum(round.creator_score or 0 for round in battle.rounds)
+            opponent_total = sum(round.opponent_score or 0 for round in battle.rounds)
+
+            winner_id = battle.creator_id if creator_total > opponent_total else battle.opponent_id
+
+            if current_user.id == winner_id:
+                total_bet = battle.bet_amount * 2
+                commission = total_bet * 0.1  # 10% комиссия
+                win_amount = total_bet - commission
+
+                current_user.cash += win_amount
+                battle.status = 'completed'
+                db.session.commit()
+
+                return jsonify({
+                    'success': True,
+                    'message': 'Выигрыш успешно получен',
+                    'amount': win_amount,
+                    'commission': commission
+                })
+            else:
+                return jsonify({
+                    'success': False,
+                    'message': 'Вы не являетесь победителем'
+                })
+        else:
+            return jsonify({
+                'success': False,
+                'message': 'Награда уже была получена'
+            })
+
+    except Exception as e:
+        logger.error(f"Error in claim battle win: {str(e)}")
+        return jsonify({
+            'success': False,
+            'message': 'Произошла ошибка при получении выигрыша'
+        })
+

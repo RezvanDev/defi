@@ -24,7 +24,7 @@ button {
 
 .content {
   height: 100vh;
-  background-color: rgba(4, 8, 15, 1);
+  background-color: #080E1B;
   display: flex;
   flex-direction: column;
 }
@@ -49,6 +49,13 @@ button {
   padding: 12px 0;
   text-align: center;
   font-size: 15px;
+  cursor: pointer;
+}
+
+.header li:first-child {
+  background-color: rgb(28, 85, 245);
+  color: rgba(255, 255, 255, 1);
+  border-radius: 12px;
 }
 
 .tasks_title {
@@ -59,6 +66,12 @@ button {
 }
 
 .tasks_subtitle {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.section-subtitle {
   color: rgba(255, 255, 255, 0.6);
   font-weight: 400;
   font-size: 13px;
@@ -181,8 +194,8 @@ button {
 }
 
 .tasks li img {
-  width: auto;
-  height: auto;
+  width: 40px;
+  height: 40px;
 }
 
 
@@ -256,5 +269,6 @@ button {
     background-color: #ccc;
     cursor: not-allowed;
 }
+
 
 

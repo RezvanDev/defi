@@ -1,11 +1,9 @@
 const miniapp_data = Telegram.WebApp.initDataUnsafe;
 const index = document.getElementById("header-index");
 
-
 Telegram.WebApp.BackButton.show();
 Telegram.WebApp.BackButton.onClick(() => {
-
-    window.history.back();
+    window.location.href = "/";
 });
 
 async function get_tg_data() {

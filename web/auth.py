@@ -172,43 +172,51 @@ def generate_referral_code():
 
 @auth_bp.route("/win", methods=["POST"])
 @login_required
-def win_sum():
+def win():
     winnings = float(request.json["winnings"])
-    current_user.total_earned = round(current_user.total_earned + winnings, 2)
-    current_user.withdrawal_balance = round(current_user.withdrawal_balance + winnings, 2)
+    using_freespin = request.json.get("using_freespin", False)
+
+    if using_freespin:
+        winnings *= 1.5
+
+    current_user.total_earned += winnings
+    current_user.withdrawal_balance += winnings
     db.session.commit()
-    token = {
-        "user_id": current_user.id,
-        "status": "YES",
-        "exp": datetime.utcnow() + timedelta(days=1),
-    }
-    return jsonify({"token": token})
+
+    return jsonify({
+        "status": "OK"
+    })
+
 
 @auth_bp.route("/check_cash", methods=["POST"])
 @login_required
 def check():
     bet = float(request.json["bet"])
-    if current_user.cash < bet:
-        freespin_value = current_user.use_freespin()
-        if freespin_value < bet:
-            token = {
-                "user_id": current_user.id,
+    using_freespin = request.json.get("using_freespin", False)
+
+    if using_freespin:
+        if current_user.freespins <= 0:
+            return jsonify({
                 "status": "NO",
-                "exp": datetime.utcnow() + timedelta(days=1),
-            }
-            return jsonify({"token": token})
-        bet = freespin_value
+                "message": "У вас нет фриспинов"
+            })
+        freespin_cost = current_user.use_freespin()
+        bet = freespin_cost
     else:
+        if current_user.cash < bet:
+            return jsonify({
+                "status": "NO",
+                "message": "У вас не хватает средств"
+            })
         current_user.cash -= bet
+
     db.session.commit()
-    token = {
-        "user_id": current_user.id,
+
+    return jsonify({
+        "status": "OK",
         "cash": current_user.cash,
-        "freespins": current_user.freespins,
-        "status": "YES",
-        "exp": datetime.utcnow() + timedelta(days=1),
-    }
-    return jsonify({"token": token})
+        "freespins": current_user.freespins
+    })
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
@@ -266,33 +274,37 @@ def login():
 @login_required
 def claim_daily_reward():
     day = request.json.get('day')
-
+    current_time = datetime.utcnow()
 
     claimed_days = [int(d) for d in current_user.claimed_daily_rewards.split(',') if d]
 
-
     if current_user.last_daily_reward:
-        days_passed = (datetime.utcnow() - current_user.last_daily_reward).days
-        if days_passed > 1:
+        time_since_last_reward = current_time - current_user.last_daily_reward
+        days_passed = time_since_last_reward.days
 
+        if days_passed > 1:
             claimed_days = []
             current_day = 1
+        elif days_passed == 0:
+            return jsonify({"status": "error", "message": "Вы уже получили награду сегодня"})
         else:
             current_day = len(claimed_days) + 1
     else:
         current_day = 1
 
     if day != current_day:
-        return jsonify({"status": "error", "message": "Неверный день для получения награды"})
+        return jsonify({"status": "error", "message": "Можно получить награду только за текущий день"})
 
     if day in claimed_days:
-        return jsonify({"status": "error", "message": "Награда уже получена сегодня"})
+        return jsonify({"status": "error", "message": "Награда за этот день уже получена"})
 
     spins_to_add = 1 if day <= 4 else 2
     current_user.freespins += spins_to_add
+
     claimed_days.append(day)
     current_user.claimed_daily_rewards = ','.join(map(str, claimed_days))
-    current_user.last_daily_reward = datetime.utcnow()
+    current_user.last_daily_reward = current_time
+
     db.session.commit()
 
     return jsonify({
@@ -305,13 +317,16 @@ def claim_daily_reward():
 @auth_bp.route("/get_daily_rewards_status")
 @login_required
 def get_daily_rewards_status():
+    current_time = datetime.utcnow()
     claimed_days = [int(d) for d in current_user.claimed_daily_rewards.split(',') if d]
 
     if current_user.last_daily_reward:
-        days_passed = (datetime.utcnow() - current_user.last_daily_reward).days
+        time_since_last_reward = current_time - current_user.last_daily_reward
+        days_passed = time_since_last_reward.days
+
         if days_passed > 1:
-            current_day = 1
             claimed_days = []
+            current_day = 1
         else:
             current_day = len(claimed_days) + 1
     else:
@@ -343,7 +358,7 @@ def get_tasks():
     return jsonify({"tasks": tasks_data})
 
 
-BOT_TOKEN = "8196768305:AAE_Z8_iRWasKVQ9_HZuJbbSwLrKZoT4jiI"
+BOT_TOKEN = "7560565901:AAEuLc2tAr50-PQsP89CovJFX6CMlqoaLXo"
 
 
 def check_subscription(user_id: int, channel_username: str) -> bool:
@@ -415,7 +430,7 @@ def referral_info():
 @login_required
 def get_invite_link():
 
-    invite_link = f"https://t.me/DeFiSpinBot?start={current_user.referral_code}"
+    invite_link = f"https://t.me/Spin2Win_react_bot?start={current_user.referral_code}"
     return jsonify({"invite_link": invite_link})
 
 
@@ -463,3 +478,33 @@ def deposit_info():
     return jsonify({
         "message": "Для создания депозита используйте метод POST /create_deposit"
     })
+
+
+@auth_bp.route("/get_freespins", methods=["POST"])
+@login_required
+def get_freespins():
+    return jsonify({
+        "status": "OK",
+        "freespins": current_user.freespins
+    })
+
+
+@auth_bp.route("/use_freespin", methods=["POST"])
+@login_required
+def use_freespin():
+    if current_user.freespins <= 0:
+        return jsonify({
+            "status": "NO",
+            "message": "У вас нет фриспинов"
+        })
+
+    freespin_cost = current_user.use_freespin()
+    db.session.commit()
+
+    return jsonify({
+        "status": "OK",
+        "freespins": current_user.freespins,
+        "bet_amount": freespin_cost
+    })
+
+

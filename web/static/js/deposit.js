@@ -1,7 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const tg = window.Telegram.WebApp;
     const createDepositBtn = document.getElementById('createDeposit');
     const depositForm = document.querySelector('.deposit-form');
     const depositInfo = document.getElementById('depositInfo');
+
+
+    tg.BackButton.show();
+    tg.BackButton.onClick(() => {
+        window.location.href = '/wallet';
+    });
 
     createDepositBtn.addEventListener('click', function() {
         const amount = document.getElementById('depositAmount').value;
@@ -21,9 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('amountToSend').textContent = data.amount;
                 document.getElementById('depositAddress').value = data.address;
 
-
                 generateQRCode(data.address, data.amount);
-
                 checkDepositStatus(data.transaction_id);
             } else {
                 alert(data.message);
@@ -36,23 +41,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function checkDepositStatus(transactionId) {
-    const checkInterval = setInterval(() => {
-        fetch(`/check_deposit/${transactionId}`)
-        .then(response => response.json())
-        .then(data => {
-            console.log("Deposit check response:", data);
-            if (data.success && data.status === 'completed') {
-                clearInterval(checkInterval);
-                alert(`Депозит на сумму ${data.amount} USDT успешно зачислен!`);
-                window.location.href = '/wallet';
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    }, 30000);
-}
-
+        const checkInterval = setInterval(() => {
+            fetch(`/check_deposit/${transactionId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("Deposit check response:", data);
+                if (data.success && data.status === 'completed') {
+                    clearInterval(checkInterval);
+                    alert(`Депозит на сумму ${data.amount} USDT успешно зачислен!`);
+                    window.location.href = '/wallet';
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }, 30000);
+    }
 
     function copyToClipboard(elementId) {
         const element = document.getElementById(elementId);
@@ -64,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('[data-clipboard-target="#depositAddress"]').addEventListener('click', function() {
         copyToClipboard('depositAddress');
     });
-
 
     function generateQRCode(address, amount) {
         const qrCodeDiv = document.getElementById('qrCode');
@@ -78,5 +81,8 @@ document.addEventListener('DOMContentLoaded', function() {
             correctLevel : QRCode.CorrectLevel.H
         });
     }
-});
 
+
+    tg.expand();
+    tg.enableClosingConfirmation();
+});
