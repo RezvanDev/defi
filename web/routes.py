@@ -488,7 +488,7 @@ def battle_wait(battle_id):
             return redirect(url_for('main.game'))
 
 
-        bot_username = "fkdmfkdmfkdbot"
+        bot_username = "Spin2Win_react_bot"
         battle_link = f"https://t.me/{bot_username}?start=battle_{battle_id}"
 
         return render_template(
