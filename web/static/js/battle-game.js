@@ -255,40 +255,39 @@ function updateGameState(state) {
   const isMyTurn = isCreator ? isCreatorTurn : !isCreatorTurn;
   const canMakeMove = isMyTurn && totalMoves < 6;
 
+  // Обновление статуса хода
   turnStatus.textContent = isMyTurn ? "Ваш ход" : `Ход ${isCreator ? opponentNickname : creatorNickname}`;
 
+  // Обновление никнеймов (создатель всегда сверху)
   const player1Nickname = document.getElementById('player1-nickname');
   const player2Nickname = document.getElementById('player2-nickname');
 
-  if (isCreator) {
-    player1Nickname.textContent = creatorNickname;
-    player2Nickname.textContent = opponentNickname;
-  } else {
-    player1Nickname.textContent = opponentNickname;
-    player2Nickname.textContent = creatorNickname;
-  }
+  player1Nickname.textContent = creatorNickname;
+  player2Nickname.textContent = opponentNickname;
 
+  // Обновление состояния кнопки
   gameState.canSpin = canMakeMove;
   spinButton.disabled = !canMakeMove;
   spinButton.classList.toggle("disabled", !canMakeMove);
 
-  const mySlots = isCreator ? "player1" : "player2";
-  const opponentSlots = isCreator ? "player2" : "player1";
-  const myScores = isCreator ? creatorScores : opponentScores;
-  const opponentScores2 = isCreator ? opponentScores : creatorScores;
+  // Определяем слоты и счета для отображения
+  const player1Slots = "player1";
+  const player2Slots = "player2";
 
+  // Обновление слотов с результатами
   for (let i = 0; i < 3; i++) {
-    const mySlotElement = document.getElementById(`${mySlots}-round${i + 1}`);
-    const opponentSlotElement = document.getElementById(`${opponentSlots}-round${i + 1}`);
+    const player1SlotElement = document.getElementById(`${player1Slots}-round${i + 1}`);
+    const player2SlotElement = document.getElementById(`${player2Slots}-round${i + 1}`);
 
-    if (mySlotElement) {
-      mySlotElement.textContent = myScores[i] !== undefined ? myScores[i] : "+";
+    if (player1SlotElement) {
+      player1SlotElement.textContent = creatorScores[i] !== undefined ? creatorScores[i] : "+";
     }
-    if (opponentSlotElement) {
-      opponentSlotElement.textContent = opponentScores2[i] !== undefined ? opponentScores2[i] : "+";
+    if (player2SlotElement) {
+      player2SlotElement.textContent = opponentScores[i] !== undefined ? opponentScores[i] : "+";
     }
   }
 
+  // Проверка завершения игры
   const isGameComplete = creatorScores.filter(s => s !== undefined).length === 3 &&
                         opponentScores.filter(s => s !== undefined).length === 3;
 
@@ -296,14 +295,16 @@ function updateGameState(state) {
     const creatorTotal = creatorScores.reduce((sum, score) => sum + (score || 0), 0);
     const opponentTotal = opponentScores.reduce((sum, score) => sum + (score || 0), 0);
 
+    // Определение победителя
     const isWinner = isCreator ?
       creatorTotal > opponentTotal :
       opponentTotal > creatorTotal;
 
     const totalBet = state.bet_amount * 2;
-    const commission = totalBet * 0.1; // 10% комиссия
+    const commission = totalBet * 0.05;
     const winAmount = totalBet - commission;
 
+    // Обновление модального окна с результатами
     const creatorFinalScore = document.getElementById("creator-final-score");
     const opponentFinalScore = document.getElementById("opponent-final-score");
     const gameResultMessage = document.getElementById("game-result-message");
@@ -313,26 +314,26 @@ function updateGameState(state) {
     const claimWinButton = document.getElementById("claim-win");
     const closeModalButton = document.getElementById("close-modal");
 
+    // Установка никнеймов в модальном окне
     if (finalCreatorNickname) finalCreatorNickname.textContent = creatorNickname;
     if (finalOpponentNickname) finalOpponentNickname.textContent = opponentNickname;
 
+    // Установка финальных счетов
     if (creatorFinalScore) creatorFinalScore.textContent = creatorTotal;
     if (opponentFinalScore) opponentFinalScore.textContent = opponentTotal;
 
-    // Обновляем сообщение о результате игры
+    // Обновление сообщения о результате
     if (gameResultMessage) {
-      if (isWinner) {
-        gameResultMessage.textContent = "Вы победили";
-      } else {
-        gameResultMessage.textContent = "Вы проиграли";
-      }
+      gameResultMessage.textContent = isWinner ? "Вы победили" : "Вы проиграли";
     }
 
+    // Отображение модального окна
     if (resultModal) {
       resultModal.style.display = "flex";
       resultModal.style.opacity = "1";
     }
 
+    // Настройка кнопок в зависимости от результата
     if (isWinner) {
       if (claimWinButton) {
         claimWinButton.style.display = "block";

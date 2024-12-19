@@ -24,7 +24,7 @@ USDT_ADDRESS = ""
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     username = db.Column(db.String(128), nullable=False, unique=True)
-    cash = db.Column(db.Integer(), nullable=False, default=100000)
+    cash = db.Column(db.Integer(), nullable=False, default=0)
     withdrawal_balance = db.Column(db.Float(), nullable=False, default=0)
     total_earned = db.Column(db.Integer(), nullable=False, default=0)
     freespins = db.Column(db.Integer(), nullable=False, default=0)

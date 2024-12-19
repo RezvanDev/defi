@@ -324,52 +324,63 @@ function validateNumbers() {
     return count > 0 && count <= 4;
 }
 
-// Обработка нажатия кнопки вращения
 spinBtn.addEventListener('click', async () => {
+    // Если колесо крутится, останавливаем
+    if (isSpinning) {
+        spinWheel();
+        return;
+    }
+
+    // Проверка выбранных чисел
     if (!validateNumbers()) {
         showNotification('Ошибка', 'Выберите от 1 до 4 уникальных чисел', 'error');
         return;
     }
 
+    // Режим фриспинов
     if (usingFreespins) {
         if (freespinsCount <= 0) {
             showNotification('Ошибка', 'У вас нет фриспинов!', 'error');
             return;
         }
         spinWheel();
-    } else {
-        if (isNaN(currentBet) || currentBet < 1 || currentBet > 100) {
-            showNotification('Ошибка', 'Выберите корректную ставку (от 1 до 100$)', 'error');
+        return;
+    }
+
+    // Проверка ставки только для обычного режима
+    if (isNaN(currentBet) || currentBet < 1 || currentBet > 100) {
+        showNotification('Ошибка', 'Выберите корректную ставку (от 1 до 100$)', 'error');
+        return;
+    }
+
+    // Проверка баланса только для обычного режима и если не бонусный спин
+    if (!usingFreespins && betCount < 4) {
+        const response = await fetch('/auth/check_cash', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                userid: miniapp_data.user.id,
+                bet: currentBet,
+                using_freespin: false
+            })
+        });
+
+        if (!response.ok) {
+            showNotification('Ошибка Сервера', 'Невозможно отправить запрос', 'error');
             return;
         }
 
-        if (betCount < 4) {
-            const response = await fetch('/auth/check_cash', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    userid: miniapp_data.user.id,
-                    bet: currentBet,
-                    using_freespin: false
-                })
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                if (data.status === "NO") {
-                    showNotification('Ошибка', data.message || 'У вас не хватает средств!', 'error');
-                    return;
-                }
-                spinWheel();
-            } else {
-                showNotification('Ошибка Сервера', 'Невозможно отправить запрос', 'error');
-            }
-        } else {
-            spinWheel();
+        const data = await response.json();
+        if (data.status === "NO") {
+            showNotification('Ошибка', data.message || 'У вас не хватает средств!', 'error');
+            return;
         }
     }
+
+    // Запускаем вращение
+    spinWheel();
 });
 
 // Обработка результатов

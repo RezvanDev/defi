@@ -20,7 +20,7 @@ migrate = Migrate(app, db)
 bot = Bot("7560565901:AAEuLc2tAr50-PQsP89CovJFX6CMlqoaLXo")
 dp = Dispatcher()
 
-WEBAPP_URL = "https://spin2win2.fun/"
+WEBAPP_URL = "https://spin2win2.fun"
 
 @dp.message(Command("start"))
 async def start_command(message: types.Message):

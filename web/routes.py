@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 import logging
 from flask_socketio import SocketIO, emit, join_room, leave_room
 import uuid
+import traceback
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -264,8 +265,8 @@ def deposit():
 
                 result = coinpayments_api.create_transaction(
                     amount=amount,
-                    currency1='LTCT',
-                    currency2='LTCT',
+                    currency1='USDT.BEP20',
+                    currency2='USDT.BEP20',
                     buyer_email=buyer_email
                 )
 
@@ -321,30 +322,60 @@ def check_deposits():
         "new_balance": current_user.cash
     })
 
+
 @main_bp.route("/ipn_handler", methods=['POST'])
 def ipn_handler():
-    logger.info("Received IPN")
-    logger.info(f"IPN data: {request.form}")
-    if not coinpayments_api.verify_ipn(request.form):
-        logger.error("Invalid IPN")
-        return "Invalid IPN", 400
+    try:
+        logger.info("=== IPN REQUEST RECEIVED ===")
+        logger.info(f"Raw request data: {request.get_data()}")
+        logger.info(f"Form data: {dict(request.form)}")
+        logger.info(f"Headers: {dict(request.headers)}")
 
-    txn_id = request.form['txn_id']
-    status = int(request.form['status'])
-    amount = float(request.form['amount'])
+        # Проверяем HMAC подпись
+        if not coinpayments_api.verify_ipn(request.form):
+            logger.error("Invalid IPN signature")
+            return "Invalid IPN", 400
 
-    logger.info(f"Processing IPN for transaction {txn_id}, status {status}, amount {amount}")
+        # Получаем данные транзакции
+        txn_id = request.form.get('txn_id')
+        status = int(request.form.get('status', -1))
+        amount = float(request.form.get('amount1', 0))
+        currency = request.form.get('currency1', '')
 
-    transaction = Transaction.query.filter_by(transaction_id=txn_id).first()
-    if transaction and transaction.status != 'completed' and status >= 100:
-        transaction.status = 'completed'
-        transaction.completed_at = datetime.utcnow()
-        user = transaction.user
-        user.cash += amount
-        db.session.commit()
-        logger.info(f"Updated transaction status to completed and added {amount} to user balance")
+        logger.info(f"Processing transaction: {txn_id}, status: {status}, amount: {amount} {currency}")
 
-    return "IPN Processed", 200
+        # Находим транзакцию в базе
+        transaction = Transaction.query.filter_by(transaction_id=txn_id).first()
+        if not transaction:
+            logger.error(f"Transaction {txn_id} not found in database")
+            return "Transaction not found", 404
+
+        # Обновляем статус если платеж подтвержден
+        if transaction.status != 'completed' and status >= 100:
+            logger.info("Updating transaction status to completed")
+            transaction.status = 'completed'
+            transaction.completed_at = datetime.utcnow()
+
+            # Обновляем баланс пользователя
+            user = transaction.user
+            user.cash += amount
+
+            # Начисляем реферальный бонус если есть реферер
+            if user.referrer:
+                bonus = amount * 0.05  # 5% реферальный бонус
+                user.referrer.referral_earnings += bonus
+                user.referrer.cash += bonus
+                logger.info(f"Added referral bonus {bonus} to user {user.referrer.id}")
+
+            db.session.commit()
+            logger.info(f"Successfully processed payment for user {user.id}")
+
+        return "IPN Processed", 200
+
+    except Exception as e:
+        logger.error(f"Error processing IPN: {str(e)}")
+        traceback.print_exc()
+        return "IPN Error", 500
 
 @main_bp.route("/profile")
 @login_required
@@ -889,7 +920,7 @@ def claim_battle_win(battle_id):
 
             if current_user.id == winner_id:
                 total_bet = battle.bet_amount * 2
-                commission = total_bet * 0.1  # 10% комиссия
+                commission = total_bet * 0.05  # 10% комиссия
                 win_amount = total_bet - commission
 
                 current_user.cash += win_amount
@@ -919,4 +950,5 @@ def claim_battle_win(battle_id):
             'success': False,
             'message': 'Произошла ошибка при получении выигрыша'
         })
+
 

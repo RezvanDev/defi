@@ -1,7 +1,13 @@
-from coinpayments import CoinPaymentsAPI
+from .coinpayments import CoinPaymentsAPI
 
-COINPAYMENTS_PUBLIC_KEY = ''
-COINPAYMENTS_PRIVATE_KEY = ''
+COINPAYMENTS_PUBLIC_KEY = 'a27b47d87fd6d40e24ef96841042c8650abbc0fb25a5a57b4ca48836ed10b831'
+COINPAYMENTS_PRIVATE_KEY = 'f71a467EbfB58E70678790acE9C2aa8a507A0be583992280924aD961D003d4b4'
+COINPAYMENTS_IPN_SECRET = 'heelooomaxjfdifienfie'
 
-coinpayments_api = CoinPaymentsAPI(public_key=COINPAYMENTS_PUBLIC_KEY,
-                                   private_key=COINPAYMENTS_PRIVATE_KEY)
+coinpayments_api = CoinPaymentsAPI(
+    public_key=COINPAYMENTS_PUBLIC_KEY,
+    private_key=COINPAYMENTS_PRIVATE_KEY,
+    ipn_secret=COINPAYMENTS_IPN_SECRET
+)
+
+
